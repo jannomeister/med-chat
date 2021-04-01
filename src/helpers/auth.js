@@ -10,7 +10,7 @@ const signin = (email, password) => {
 
 const signInWithGoogle = () => {
   const provider = new auth.GoogleAuthProvider();
-  return auth().signInWithPopup(provider);
+  return auth().signInWithRedirect(provider);
 };
 
 const logout = () => {
