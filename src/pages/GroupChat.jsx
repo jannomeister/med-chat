@@ -18,12 +18,7 @@ const GroupChat = (props) => {
 
   useEffect(() => {
     if (messageBoxRef && value) {
-      messageBoxRef.current.scrollIntoView({
-        block: "end",
-        inline: "center",
-        behavior: "smooth",
-        alignToTop: false,
-      });
+      messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
       // messageBoxRef.current.addEventListener("DOMNodeInserted", (e) => {
       //   const { currentTarget: target } = e;
       //   console.log("asdadasd: inserted: ", target.scrollHeight);
