@@ -36,7 +36,13 @@ const Login = (props) => {
   };
 
   const onGoogleSignin = async () => {
-    await signInWithGoogle();
+    try {
+      await signInWithGoogle();
+
+      props.history.replace("/groups");
+    } catch (err) {
+      console.log("err: ", err);
+    }
   };
 
   return (
