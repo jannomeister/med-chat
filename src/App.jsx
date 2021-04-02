@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
+import Groups from "./pages/Groups";
+import GroupChat from "./pages/GroupChat";
 import { auth } from "./services/firebase";
 
 import "./App.css";
@@ -38,7 +40,7 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
         authenticated === false ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/chat" />
+          <Redirect to="/groups" />
         )
       }
     />
@@ -73,6 +75,17 @@ function App() {
           path="/chat"
           authenticated={authenticated}
           component={Chat}
+        />
+        <PrivateRoute
+          path="/groups"
+          authenticated={authenticated}
+          exact
+          component={Groups}
+        />
+        <PrivateRoute
+          path="/groups/:id"
+          authenticated={authenticated}
+          component={GroupChat}
         />
         <PublicRoute
           path="/login"

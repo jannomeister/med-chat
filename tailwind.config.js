@@ -3,6 +3,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    screens: {
+      "2xl": { max: "800px" },
+    },
   },
   variants: {
     extend: {},

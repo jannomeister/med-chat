@@ -1,5 +1,9 @@
 import { auth } from "../services/firebase";
 
+const currUser = () => {
+  return auth().currentUser;
+};
+
 const signup = (email, password) => {
   return auth().createUserWithEmailAndPassword(email, password);
 };
@@ -17,4 +21,4 @@ const logout = () => {
   return auth().signOut();
 };
 
-export { signup, signin, signInWithGoogle, logout };
+export { currUser, signup, signin, signInWithGoogle, logout };
