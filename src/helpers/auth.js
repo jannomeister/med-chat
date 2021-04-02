@@ -14,7 +14,7 @@ const signin = (email, password) => {
 
 const signInWithGoogle = () => {
   const provider = new auth.GoogleAuthProvider();
-  return auth().signInWithRedirect(provider);
+  return auth().signInWithPopup(provider);
 };
 
 const logout = () => {
