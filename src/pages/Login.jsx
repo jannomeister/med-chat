@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-form";
-import { signin, signInWithGoogle } from "../helpers/auth";
+import { signin, signInWithGoogle, signInWithTwitter } from "../helpers/auth";
 import { isEmailValid } from "../helpers/utils";
 
 // components
@@ -39,6 +39,16 @@ const Login = (props) => {
       }
     },
   });
+
+  const onTwitterSignin = async () => {
+    try {
+      await signInWithTwitter();
+
+      props.history.replace("/groups");
+    } catch (err) {
+      console.log("err: ", err);
+    }
+  };
 
   const onGoogleSignin = async () => {
     try {
@@ -119,6 +129,14 @@ const Login = (props) => {
             </button>
           </div>
         </Form>
+
+        <button
+          className="text-xl bg-blue-500 pt-2 pb-2.5 rounded-full"
+          type="button"
+          onClick={onTwitterSignin}
+        >
+          <span className="text-white">Sign in with Twitter</span>
+        </button>
 
         <button
           className="text-xl bg-red-600 pt-2 pb-2.5 rounded-full"

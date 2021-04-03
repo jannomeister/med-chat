@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../services/firebase";
-import { addMessage } from "../helpers/db";
+import { addMessage, fetchGroup } from "../helpers/db";
 import { currUser } from "../helpers/auth";
 
 const GroupChat = (props) => {
   const { id } = useParams();
   const messageBoxRef = useRef(null);
+  const [group, setGroup] = useState(null);
   const [message, setMessage] = useState("");
   const [value, loading, error] = useCollection(
     db.collection("message").doc(id).collection("messages").orderBy("sentAt"),
@@ -17,16 +18,14 @@ const GroupChat = (props) => {
   );
 
   useEffect(() => {
+    fetchGroup().then((data) => {
+      setGroup(null);
+    });
+  }, []);
+
+  useEffect(() => {
     if (messageBoxRef && value) {
       messageBoxRef.current.scrollIntoView({ behavior: "smooth" });
-      // messageBoxRef.current.addEventListener("DOMNodeInserted", (e) => {
-      //   const { currentTarget: target } = e;
-      //   console.log("asdadasd: inserted: ", target.scrollHeight);
-      //   target.scroll({
-      //     bottom: target.scrollHeight + 300,
-      //     behavior: "smooth",
-      //   });
-      // });
     }
   }, [value]);
 
@@ -81,6 +80,9 @@ const GroupChat = (props) => {
           name="message"
           onChange={(e) => setMessage(e.target.value)}
           value={message}
+          disabled={
+            group && group.members.includes(currUser().uid) ? true : false
+          }
           className="flex-grow m-2 py-2 px-4 mr-1 rounded-full border border-gray-300 bg-gray-200 resize-none outline-none"
         ></textarea>
         <button type="button" className="m-2 outline-none" onClick={onSend}>

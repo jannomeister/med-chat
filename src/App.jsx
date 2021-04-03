@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
+import NewGroup from "./pages/NewGroup";
 import Groups from "./pages/Groups";
 import GroupChat from "./pages/GroupChat";
 import { auth } from "./services/firebase";
@@ -82,6 +83,12 @@ function App() {
           authenticated={authenticated}
           exact
           component={Groups}
+        />
+        <PrivateRoute
+          path="/new/group"
+          authenticated={authenticated}
+          exact
+          component={NewGroup}
         />
         <PrivateRoute
           path="/groups/:id"

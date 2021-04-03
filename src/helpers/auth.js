@@ -1,5 +1,7 @@
 import { auth } from "../services/firebase";
 
+auth().send;
+
 const currUser = () => {
   return auth().currentUser;
 };
@@ -17,8 +19,20 @@ const signInWithGoogle = () => {
   return auth().signInWithPopup(provider);
 };
 
+const signInWithTwitter = () => {
+  const provider = new auth.TwitterAuthProvider();
+  return auth().signInWithPopup(provider);
+};
+
 const logout = () => {
   return auth().signOut();
 };
 
-export { currUser, signup, signin, signInWithGoogle, logout };
+export {
+  currUser,
+  signup,
+  signin,
+  signInWithGoogle,
+  signInWithTwitter,
+  logout,
+};

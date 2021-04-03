@@ -22,6 +22,18 @@ const fetchGroups = () => {
   });
 };
 
+const fetchGroup = (groupId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const doc = await db.collection("group").doc(groupId).get();
+
+      return resolve(doc.exists ? doc.data() : null);
+    } catch (err) {
+      return reject(err);
+    }
+  });
+};
+
 const fetchMessageByGroupId = (groupId) => {
   return db
     .collection("message")
@@ -36,7 +48,12 @@ const addGroup = (data) => {
       const group = {
         ...data,
         members: [currUser().uid],
-        createdBy: currUser().uid,
+        createdBy: {
+          userId: currUser().uid,
+          displayName: currUser().displayName,
+          email: currUser().email,
+          photoUrl: currUser().photoURL,
+        },
         createdAt: createServerTimestamp(),
         updatedAt: createServerTimestamp(),
       };
@@ -44,6 +61,24 @@ const addGroup = (data) => {
       const result = await db.collection("group").add(group);
 
       return resolve(result.id);
+    } catch (err) {
+      return reject(err);
+    }
+  });
+};
+
+const removeMemberToGroup = (groupId, group) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      await db
+        .collection("group")
+        .doc(groupId)
+        .set({
+          ...group,
+          members: group.members.filter((m) => m !== currUser().uid),
+        });
+
+      return resolve(true);
     } catch (err) {
       return reject(err);
     }
@@ -94,6 +129,8 @@ export {
   addGroup,
   addMessage,
   addMemberToGroup,
+  removeMemberToGroup,
   fetchGroups,
+  fetchGroup,
   fetchMessageByGroupId,
 };

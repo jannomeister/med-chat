@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {},
     screens: {
-      "2xl": { max: "800px" },
+      "1xl": { max: "1038px" },
+      "2xl": { max: "730px" },
     },
   },
   variants: {
