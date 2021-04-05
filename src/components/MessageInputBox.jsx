@@ -1,11 +1,82 @@
-import React, { useRef } from "react";
+import "emoji-mart/css/emoji-mart.css";
+import React, { useRef, useState } from "react";
+import { Picker } from "emoji-mart";
 import Textarea from "react-textarea-autosize";
 
-const MessageInputBox = ({ value, onChange, disabled, onSend }) => {
+const AttachmentButton = React.forwardRef((props, ref) => {
+  return (
+    <>
+      <button
+        type="button"
+        className="text-gray-500 w-6"
+        onClick={props.onOpenFile}
+      >
+        <svg
+          className="w-full"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+          />
+        </svg>
+      </button>
+      <input type="file" ref={ref} className="hidden" />
+    </>
+  );
+});
+
+const EmojiButton = ({ open, onOpen, onSelect }) => {
+  return (
+    <>
+      <div
+        className={`absolute ${!open ? "hidden" : "visible"}`}
+        style={{ bottom: "55px", right: "10px" }}
+      >
+        <Picker onSelect={onSelect} />
+      </div>
+      <button type="button" className="text-gray-500 w-6" onClick={onOpen}>
+        <svg
+          className="w-full"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </button>
+    </>
+  );
+};
+
+const MessageInputBox = ({
+  value,
+  onChange,
+  disabled,
+  onSend,
+  onSelectedEmoji,
+}) => {
+  const [openEmoji, setOpenEmoji] = useState(false);
   const inputFileRef = useRef(null);
 
   const onOpenFile = () => {
     inputFileRef.current.click();
+  };
+
+  const onSelectEmoji = (e) => {
+    onSelectedEmoji(e.native);
+    setOpenEmoji(!openEmoji);
   };
 
   return (
@@ -19,27 +90,13 @@ const MessageInputBox = ({ value, onChange, disabled, onSend }) => {
           disabled={disabled}
           className="w-full resize-none outline-none"
         />
-        <button
-          type="button"
-          className="text-gray-500 w-6"
-          onClick={onOpenFile}
-        >
-          <svg
-            className="w-full"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-            />
-          </svg>
-        </button>
-        <input type="file" ref={inputFileRef} className="hidden" />
+        <AttachmentButton ref={inputFileRef} onOpenFile={onOpenFile} />
+        <div className="mx-1" />
+        <EmojiButton
+          open={openEmoji}
+          onOpen={() => setOpenEmoji(!openEmoji)}
+          onSelect={onSelectEmoji}
+        />
       </div>
       <button
         type="button"

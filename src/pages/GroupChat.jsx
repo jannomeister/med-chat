@@ -39,8 +39,11 @@ const GroupChat = (props) => {
   }, [value]);
 
   const onSend = async () => {
-    setMessage("");
+    if (!message) {
+      return window.alert("Please type something!");
+    }
 
+    setMessage("");
     await addMessage(id, message);
   };
 
@@ -75,6 +78,7 @@ const GroupChat = (props) => {
             group && group.members.includes(currUser().uid) ? true : false
           }
           onSend={onSend}
+          onSelectedEmoji={(emoji) => setMessage(message + emoji)}
         />
       </div>
       <GroupChatRightSidebar group={group} />
