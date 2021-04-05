@@ -79,6 +79,13 @@ const MessageInputBox = ({
     setOpenEmoji(!openEmoji);
   };
 
+  const onKeyDown = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      onSend();
+    }
+  };
+
   return (
     <div className="absolute bottom-0 flex justify-center items-center mt-1.5 bg-white w-full">
       <div className="flex flex-grow m-2 ml-5 h-auto r-1 rounded-lg text-sm border border-gray-300 py-3 px-4 bg-white">
@@ -86,6 +93,7 @@ const MessageInputBox = ({
           placeholder="Type your message..."
           name="message"
           onChange={onChange}
+          onKeyDown={onKeyDown}
           value={value}
           disabled={disabled}
           className="w-full resize-none outline-none"

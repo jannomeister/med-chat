@@ -24,6 +24,9 @@ const GroupChat = (props) => {
     }
   );
 
+  const userNotAllowed =
+    group && group.members.find((e) => e.uid === currUser().uid) ? false : true;
+
   useEffect(() => {
     fetchGroup(id).then((data) => {
       setGroup(data);
@@ -39,6 +42,10 @@ const GroupChat = (props) => {
   }, [value]);
 
   const onSend = async () => {
+    if (userNotAllowed) {
+      return window.alert("Oops! you didn't join this group chat");
+    }
+
     if (!message) {
       return window.alert("Please type something!");
     }
@@ -75,7 +82,9 @@ const GroupChat = (props) => {
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           disabled={
-            group && group.members.includes(currUser().uid) ? true : false
+            group && group.members.find((e) => e.uid === currUser().uid)
+              ? false
+              : true
           }
           onSend={onSend}
           onSelectedEmoji={(emoji) => setMessage(message + emoji)}
