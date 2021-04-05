@@ -22,7 +22,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
         <div className="relative w-16 h-16 -top-9 ml-3 -mb-9 bg-white border-4 border-solid border-white rounded">
           <Link
             to={{
-              pathname: `/groups/${id}`,
+              pathname: `/messages/t/${id}`,
             }}
           >
             <img
@@ -35,7 +35,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
         <div className="flex flex-col py-0 px-4">
           <Link
             to={{
-              pathname: `/groups/${id}`,
+              pathname: `/messages/t/${id}`,
             }}
           >
             <h1 className="text-2xl break-words font-extrabold">{item.name}</h1>

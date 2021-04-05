@@ -1,35 +1,51 @@
 import React from "react";
 import { formatDistance } from "date-fns";
 
+const SenderMessage = React.forwardRef(({ messageText, sentAt }, ref) => {
+  return (
+    <div className="max-w-min mx-4 mt-2 mb-2 p-2 w-3/4 self-end" ref={ref}>
+      <div className="border border-gray-200 p-4 text-sm rounded-lg rounded-br-none bg-gray-200">
+        <p className="break-words">{messageText}</p>
+      </div>
+      <div>
+        <p className="text-xs text-gray-500 mt-1 text-right">{sentAt}</p>
+      </div>
+    </div>
+  );
+});
+
+const OtherMessage = React.forwardRef(({ messageText, sentAt }, ref) => {
+  return (
+    <div className="max-w-min mx-4 mt-2 mb-2 p-2 w-3/4 self-start" ref={ref}>
+      <div className="border border-gray-200 p-4 text-sm rounded-lg rounded-bl-none bg-indigo-700 text-white">
+        <p className="break-words">{messageText}</p>
+      </div>
+      <p className="text-xs text-gray-500 mt-1 text-left">{sentAt}</p>
+    </div>
+  );
+});
+
 const GroupChatView = React.forwardRef((props, ref) => {
   const { item, isSender } = props;
-  const sentAt = item.sentAt
-    ? item.sentAt.toDate().toLocaleString()
-    : new Date().getTime();
+  const date = item.sentAt ? item.sentAt.toDate().getTime() : Date.now();
+  const sentAt = formatDistance(date, new Date(), { addSuffix: true });
 
   return (
-    <div
-      className={`min-w-min max-w- mx-4 mt-2 mb-2 p-2 ${
-        isSender ? "self-end" : "self-start"
-      }`}
-      style={{ maxWidth: "80%" }}
-      ref={ref}
-    >
-      <div
-        className={`border border-gray-200 p-4 text-sm rounded-lg rounded-${
-          isSender ? "br" : "bl"
-        }-none ${isSender ? "bg-gray-200" : "bg-indigo-700 text-white"}`}
-      >
-        {item.messageText}
-      </div>
-      <p
-        className={`text-xs text-gray-500 ${
-          isSender ? " text-right" : " text-left"
-        }`}
-      >
-        {formatDistance(new Date(sentAt), new Date(), { addSuffix: true })}
-      </p>
-    </div>
+    <>
+      {isSender ? (
+        <SenderMessage
+          ref={ref}
+          messageText={item.messageText}
+          sentAt={sentAt}
+        />
+      ) : (
+        <OtherMessage
+          ref={ref}
+          messageText={item.messageText}
+          sentAt={sentAt}
+        />
+      )}
+    </>
   );
 });
 

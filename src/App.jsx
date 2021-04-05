@@ -24,9 +24,6 @@ function PrivateRoute({ component: Component, authenticated, ...rest }) {
         authenticated === true ? (
           <Component {...rest} />
         ) : (
-          // <Redirect
-          //   to={{ pathname: "/login", state: { from: props.location } }}
-          // />
           <Redirect to="/login" />
         )
       }
@@ -91,7 +88,7 @@ function App() {
           component={NewGroup}
         />
         <PrivateRoute
-          path="/groups/:id"
+          path="/messages/t/:id"
           authenticated={authenticated}
           component={GroupChat}
         />

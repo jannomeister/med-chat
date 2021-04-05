@@ -45,24 +45,29 @@ const GroupChat = (props) => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center max-w-max my-0 mx-auto">
       <GroupChatLeftSidebar />
       <div
-        className="flex flex-col bg-white mb-20 overflow-y-auto no-scrollbar"
-        style={{ width: "50%", height: "92vh" }}
+        className="relative overflow-scroll w-"
+        style={{ width: "50rem", height: "100vh" }}
       >
-        {!loading && value.docs ? (
-          value.docs.map((doc) => (
-            <GroupChatView
-              key={doc.id}
-              item={doc.data()}
-              isSender={doc.data().sentBy === currUser().uid}
-              ref={messageBoxRef}
-            />
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+        <div
+          className="flex flex-col no-scrollbar overflow-scroll"
+          style={{ maxHeight: "95%" }}
+        >
+          {!loading && value.docs ? (
+            value.docs.map((doc) => (
+              <GroupChatView
+                key={doc.id}
+                item={doc.data()}
+                isSender={doc.data().sentBy === currUser().uid}
+                ref={messageBoxRef}
+              />
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
+        </div>
         <MessageInputBox
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -72,10 +77,7 @@ const GroupChat = (props) => {
           onSend={onSend}
         />
       </div>
-      <GroupChatRightSidebar
-        owner={group?.createdBy}
-        members={group?.members}
-      />
+      <GroupChatRightSidebar group={group} />
     </div>
   );
 };

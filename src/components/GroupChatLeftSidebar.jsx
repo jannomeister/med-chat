@@ -2,9 +2,9 @@ import React from "react";
 
 const GroupChatSidebar = () => {
   return (
-    <aside className="h-screen w-40 fixed z-10 top-0 left-0 bg-gray-700 overflow-x-hidden pt-5">
-      <nav>
-        <span>asdsadas</span>
+    <aside className="h-screen w-96 z-10 top-0 left-0 overflow-x-hidden">
+      <nav className="bg-gray-100 border border-gray-100 rounded-t-lg h-full p-4">
+        <h1 className="text-xl font-bold">Messages</h1>
       </nav>
     </aside>
   );
