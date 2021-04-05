@@ -15,7 +15,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
       <div className="object-cover h-32 w-full bg-black">
         <img
           src={item.banner}
-          className="object-cover h-32 w-full  shadow-inner bg-black"
+          className="object-cover h-32 w-full shadow-inner bg-black"
         />
       </div>
       <div className="p-1.5">
@@ -145,7 +145,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
 
           <div className="pt-4 pb-3 grid items-center gap-3">
             {item.createdBy !== currUser().uid &&
-            !item.members.includes(currUser().uid) ? (
+            !item.members.find((e) => e.uid === currUser().uid) ? (
               <JoinGroupButton onJoinGroup={() => onJoinGroup(item)} />
             ) : (
               <MemberGroupButton onLeaveGroup={() => onLeaveGroup(item)} />

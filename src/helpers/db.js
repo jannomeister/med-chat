@@ -47,7 +47,14 @@ const addGroup = (data) => {
     try {
       const group = {
         ...data,
-        members: [currUser().uid],
+        members: [
+          {
+            uid: currUser().uid,
+            displayName: currUser().displayName,
+            photoURL: currUser().photoURL,
+            email: currUser().email,
+          },
+        ],
         createdBy: {
           userId: currUser().uid,
           displayName: currUser().displayName,
@@ -93,7 +100,15 @@ const addMemberToGroup = (groupId, group) => {
         .doc(groupId)
         .set({
           ...group,
-          members: [...group.members, currUser().uid],
+          members: [
+            ...group.members,
+            {
+              uid: currUser().uid,
+              displayName: currUser().displayName,
+              photoURL: currUser().photoURL,
+              email: currUser().email,
+            },
+          ],
         });
 
       return resolve(true);

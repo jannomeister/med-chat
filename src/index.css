@@ -18,3 +18,31 @@
     column-count: 1 !important;
   }
 }
+
+@layer utilities {
+  @variants responsive {
+    /* Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 12px; /* width of the entire scrollbar */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: orange; /* color of the tracking area */
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background-color: blue; /* color of the scroll thumb */
+      border-radius: 20px; /* roundness of the scroll thumb */
+      border: 3px solid orange; /* creates padding around scroll thumb */
+    }
+  }
+}
