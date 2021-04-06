@@ -54,6 +54,10 @@ const GroupChat = (props) => {
     await addMessage(id, message);
   };
 
+  const onSendGif = async (gifUrl) => {
+    await addMessage(id, message, gifUrl);
+  };
+
   return (
     <div className="flex items-center justify-center max-w-max my-0 mx-auto">
       <GroupChatLeftSidebar />
@@ -88,6 +92,7 @@ const GroupChat = (props) => {
           }
           onSend={onSend}
           onSelectedEmoji={(emoji) => setMessage(message + emoji)}
+          onSelectedGif={onSendGif}
         />
       </div>
       <GroupChatRightSidebar group={group} />

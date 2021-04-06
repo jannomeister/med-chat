@@ -2,6 +2,7 @@ import "emoji-mart/css/emoji-mart.css";
 import React, { useRef, useState } from "react";
 import { Picker } from "emoji-mart";
 import Textarea from "react-textarea-autosize";
+import ReactGiphySearchbox from "../components/ReactGiphySearchbox";
 
 const AttachmentButton = React.forwardRef((props, ref) => {
   return (
@@ -60,14 +61,76 @@ const EmojiButton = ({ open, onOpen, onSelect }) => {
   );
 };
 
+const GifButton = ({ open, onOpen, onSelect }) => {
+  return (
+    <>
+      <div
+        className={`absolute ${!open ? "hidden" : "visible"}`}
+        style={{ bottom: "55px", right: "10px" }}
+      >
+        <ReactGiphySearchbox
+          apiKey={import.meta.env.VITE_GIPHY_API_KEY}
+          onSelect={onSelect}
+          masonryConfig={[
+            { columns: 2, imageWidth: 110, gutter: 5 },
+            { mq: "700px", columns: 3, imageWidth: 120, gutter: 5 },
+          ]}
+        />
+      </div>
+      <button type="button" className="text-gray-500 w-6" onClick={onOpen}>
+        <svg
+          className="w-full"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="2"
+            d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+          />
+        </svg>
+      </button>
+    </>
+  );
+};
+
+const SendButton = ({ onSend }) => {
+  return (
+    <button
+      type="button"
+      className="m-1 outline-none border rounded-full mr-4 p-2 border-red-100 bg-red-100 text-red-500 "
+      onClick={onSend}
+    >
+      <svg
+        aria-hidden="true"
+        className="w-4"
+        focusable="false"
+        role="img"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 512 512"
+      >
+        <path
+          fill="currentColor"
+          d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"
+        />
+      </svg>
+    </button>
+  );
+};
+
 const MessageInputBox = ({
   value,
   onChange,
   disabled,
   onSend,
   onSelectedEmoji,
+  onSelectedGif,
 }) => {
   const [openEmoji, setOpenEmoji] = useState(false);
+  const [openGif, setOpenGif] = useState(false);
   const inputFileRef = useRef(null);
 
   const onOpenFile = () => {
@@ -77,6 +140,11 @@ const MessageInputBox = ({
   const onSelectEmoji = (e) => {
     onSelectedEmoji(e.native);
     setOpenEmoji(!openEmoji);
+  };
+
+  const onSelectGif = (e) => {
+    onSelectedGif(`https://media.giphy.com/media/${e.id}/giphy.gif`);
+    setOpenGif(!openGif);
   };
 
   const onKeyDown = (e) => {
@@ -105,26 +173,14 @@ const MessageInputBox = ({
           onOpen={() => setOpenEmoji(!openEmoji)}
           onSelect={onSelectEmoji}
         />
+        <div className="mx-1" />
+        <GifButton
+          open={openGif}
+          onOpen={() => setOpenGif(!openGif)}
+          onSelect={onSelectGif}
+        />
       </div>
-      <button
-        type="button"
-        className="m-1 outline-none border rounded-full mr-4 p-2 border-red-100 bg-red-100 text-red-500 "
-        onClick={onSend}
-      >
-        <svg
-          aria-hidden="true"
-          className="w-4"
-          focusable="false"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 512 512"
-        >
-          <path
-            fill="currentColor"
-            d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"
-          />
-        </svg>
-      </button>
+      <SendButton onSend={onSend} />
     </div>
   );
 };

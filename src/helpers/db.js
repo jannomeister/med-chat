@@ -118,11 +118,13 @@ const addMemberToGroup = (groupId, group) => {
   });
 };
 
-const addMessage = (currentGroupId, messageText) => {
+const addMessage = (currentGroupId, messageText, gifUrl = "") => {
   return new Promise(async (resolve, reject) => {
     try {
       const message = {
         messageText: messageText.trim(),
+        gif: gifUrl,
+        hasGif: gifUrl ? true : false,
         sentBy: currUser().uid,
         sentAt: createServerTimestamp(),
       };

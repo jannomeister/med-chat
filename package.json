@@ -9,6 +9,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "bricks.js": "^1.8.0",
     "date-fns": "^2.19.0",
     "emoji-mart": "^3.0.1",
     "firebase": "^8.3.2",
