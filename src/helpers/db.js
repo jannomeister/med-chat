@@ -118,13 +118,18 @@ const addMemberToGroup = (groupId, group) => {
   });
 };
 
-const addMessage = (currentGroupId, messageText, gifUrl = "") => {
+const addMessage = (currentGroupId, messageText, other) => {
+  const gifUrl = other && other.gifUrl ? other.gifUrl : "";
+  const fileUrl = other && other.fileUrl ? other.fileUrl : "";
+
   return new Promise(async (resolve, reject) => {
     try {
       const message = {
         messageText: messageText.trim(),
         gif: gifUrl,
+        files: [fileUrl],
         hasGif: gifUrl ? true : false,
+        hasFile: fileUrl ? true : false,
         sentBy: {
           uid: currUser().uid,
           displayName: currUser().displayName,
@@ -133,6 +138,8 @@ const addMessage = (currentGroupId, messageText, gifUrl = "") => {
         },
         sentAt: createServerTimestamp(),
       };
+
+      console.log("messagee::: ", message);
 
       await db
         .collection("message")
