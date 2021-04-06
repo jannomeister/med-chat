@@ -74,7 +74,7 @@ const GroupChat = (props) => {
               <GroupChatView
                 key={doc.id}
                 item={doc.data()}
-                isSender={doc.data().sentBy === currUser().uid}
+                isSender={doc.data().sentBy.uid === currUser().uid}
                 ref={messageBoxRef}
               />
             ))

@@ -125,7 +125,12 @@ const addMessage = (currentGroupId, messageText, gifUrl = "") => {
         messageText: messageText.trim(),
         gif: gifUrl,
         hasGif: gifUrl ? true : false,
-        sentBy: currUser().uid,
+        sentBy: {
+          uid: currUser().uid,
+          displayName: currUser().displayName,
+          photoURL: currUser().photoURL,
+          email: currUser().email,
+        },
         sentAt: createServerTimestamp(),
       };
 
