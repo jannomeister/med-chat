@@ -24,9 +24,13 @@ const OtherMessage = React.forwardRef(({ messageText, gif, sentAt }, ref) => {
       className="flex flex-col mx-4 mt-2 mb-2 p-2 w-3/4 self-start"
       ref={ref}
     >
-      <div className="max-w-min border border-gray-200 p-4 text-sm rounded-lg rounded-bl-none bg-indigo-700 text-white self-start">
-        <p className="break-words">{messageText}</p>
-      </div>
+      {messageText && !gif ? (
+        <div className="max-w-min border border-gray-200 p-4 text-sm rounded-lg rounded-bl-none bg-indigo-700 text-white self-start">
+          <p className="break-words">{messageText}</p>
+        </div>
+      ) : (
+        <img src={gif} alt="asdasd" />
+      )}
       <p className="text-xs text-gray-500 mt-1 text-left">{sentAt}</p>
     </div>
   );
