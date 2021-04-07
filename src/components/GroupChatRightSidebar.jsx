@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchGroupPhotos } from "../helpers/storage";
 
 // components
 import MemberAvatar from "./MemberAvatar";
 
-const GroupChatRightSidebar = ({ group }) => {
+const GroupChatRightSidebar = ({ id, group }) => {
+  const [photos, setPhotos] = useState([]);
+
+  useEffect(() => {
+    fetchGroupPhotos(id).then((urls) => {
+      setPhotos(urls);
+    });
+  }, []);
+
   return (
     <aside className="h-screen w-80 z-10 top-0 right-0 overflow-x-hidden pt-28 pr-5">
       <nav className="bg-gray-100 border border-gray-100 rounded-t-lg h-full text-center p-4">
@@ -35,7 +44,7 @@ const GroupChatRightSidebar = ({ group }) => {
               </h1>
               <p className="text-xs text-gray-400">Group Admin</p>
             </div>
-            <div className="grid grid-flow-col gap-2 grid-rows-2 grid-cols-3 py-2">
+            <div className="grid grid-flow-col gap-2 grid-rows-2 grid-cols-3 pt-4 pb-12">
               {group.members
                 .filter((m) => m.uid !== group.createdBy.userId)
                 .slice(0, 6)
@@ -60,11 +69,11 @@ const GroupChatRightSidebar = ({ group }) => {
           <h1 className="text-xs text-left font-bold">PHOTOS & MULTIMEDIA</h1>
 
           <div className="grid grid-flow-row grid-cols-3 gap-3 grid-rows-2 py-3">
-            {[1, 2, 3, 4, 5, 6].map((e) => (
-              <div key={e} className="rounded-lg">
+            {photos.map((photo) => (
+              <div key={photo} className="rounded-lg h-20 bg-gray-800">
                 <img
-                  className="rounded-lg"
-                  src="https://images.unsplash.com/photo-1617128734662-66da6c1d3505?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2206&q=80"
+                  className="rounded-lg w-full h-full object-cover"
+                  src={photo}
                   alt=""
                 />
               </div>

@@ -9,7 +9,6 @@ import { currUser } from "../helpers/auth";
 // components
 import GroupChatLeftSidebar from "../components/GroupChatLeftSidebar";
 import GroupChatRightSidebar from "../components/GroupChatRightSidebar";
-import GroupChatView from "../components/GroupChatView";
 import {
   MessageBoxWrapper,
   MessageInput,
@@ -17,6 +16,9 @@ import {
   MessageEmojiButton,
   MessageFileButton,
   MessageFileIndicator,
+  MessageWrapper,
+  MessageList,
+  FileUploadIndicator,
 } from "../components/MessageBox";
 
 const GroupChat = (props) => {
@@ -75,54 +77,14 @@ const GroupChat = (props) => {
   return (
     <div className="flex items-center justify-center max-w-max my-0 mx-auto">
       <GroupChatLeftSidebar />
-      <div
-        className="relative overflow-scroll w-"
-        style={{ width: "50rem", height: "100vh" }}
-      >
-        <div
-          className="flex flex-col no-scrollbar overflow-scroll"
-          style={{ maxHeight: "95%" }}
-        >
-          {!loading && value.docs ? (
-            value.docs.map((doc) => (
-              <GroupChatView
-                key={doc.id}
-                item={doc.data()}
-                isSender={doc.data().sentBy.uid === currUser().uid}
-                ref={messageBoxRef}
-              />
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
-        </div>
+      <MessageWrapper>
+        {!loading ? (
+          <MessageList messages={value.docs} itemRef={messageBoxRef} />
+        ) : (
+          <p>Loading...</p>
+        )}
 
-        {isUploading ? (
-          <div className="absolute bottom-16 w-full p-2">
-            <div className="bg-white border border-gray-300 rounded-lg p-2">
-              <div className="relative pt-1">
-                <div className="flex mb-2 items-center justify-between">
-                  <div>
-                    <span className="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200">
-                      Uploading
-                    </span>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs font-semibold inline-block text-pink-600">
-                      {uploadProgress}%
-                    </span>
-                  </div>
-                </div>
-                <div className="overflow-hidden h-2 text-xs flex rounded bg-pink-200">
-                  <div
-                    style={{ width: `${uploadProgress}%` }}
-                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-pink-500"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        ) : null}
+        {isUploading ? <FileUploadIndicator progress={uploadProgress} /> : null}
 
         <MessageBoxWrapper onSend={onSend}>
           <MessageFileIndicator show={fileUrl ? true : false} />
@@ -176,8 +138,8 @@ const GroupChat = (props) => {
             }}
           />
         </MessageBoxWrapper>
-      </div>
-      <GroupChatRightSidebar group={group} />
+      </MessageWrapper>
+      <GroupChatRightSidebar id={id} group={group} />
     </div>
   );
 };
