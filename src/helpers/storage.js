@@ -5,7 +5,7 @@ const fetchGroupPhotos = async (groupId) => {
   const only6 = items.slice(-6).reverse();
   const photos = [];
 
-  for await (const item of only6) {
+  for (const item of only6) {
     const url = await item.getDownloadURL();
 
     photos.push(url);
