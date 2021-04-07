@@ -6,8 +6,11 @@ import { logout } from "../helpers/auth";
 import { addGroup, addMemberToGroup, removeMemberToGroup } from "../helpers/db";
 
 // components
+import Masonry from "react-masonry-css";
 import Sidebar from "../components/Sidebar";
 import GroupItem from "../components/GroupItem";
+
+let brakePoints = [350, 500, 750];
 
 const Groups = (props) => {
   const history = useHistory();
@@ -54,8 +57,17 @@ const Groups = (props) => {
         </button>
       </div>
 
-      {loading === false ? (
-        <div className="masonry max-w-7xl px-16 py-8">
+      {!loading ? (
+        <Masonry
+          breakpointCols={{
+            default: 4,
+            1100: 3,
+            700: 2,
+            500: 1,
+          }}
+          className="flex -ml-7 w-auto"
+          columnClassName="pl-7 bg-clip-padding"
+        >
           {value.docs.length > 0 ? (
             value.docs.map((doc) => (
               <GroupItem
@@ -69,10 +81,31 @@ const Groups = (props) => {
           ) : (
             <h1>No data</h1>
           )}
-        </div>
+        </Masonry>
       ) : (
         <p>Loading...</p>
       )}
+
+      {/* {!loading ? (
+        <Masonry brakePoints={[350, 500, 750]}>
+          {value.docs.length > 0 ? (
+            value.docs.map((doc) => (
+              <GroupItem
+                key={doc.id}
+                id={doc.id}
+                item={doc.data()}
+                onLeaveGroup={async (item) => await onLeaveGroup(doc.id, item)}
+                onJoinGroup={async (item) => await onJoinGroup(doc.id, item)}
+              />
+            ))
+          ) : (
+            <h1>No data</h1>
+          )}
+        </Masonry>
+      ) : (
+        <p>Loading...</p>
+      )} */}
+
       <button type="button" onClick={onLogout}>
         Logout
       </button>

@@ -9,7 +9,7 @@ import MemberGroupButton from "./MemberGroupButton";
 const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
   return (
     <div
-      className="rounded-lg overflow-hidden mb-8 border border-gray-300"
+      className="rounded-lg overflow-hidden mx-3 mb-8 border border-gray-300 "
       key={id}
     >
       <div className="object-cover h-32 w-full bg-black">
