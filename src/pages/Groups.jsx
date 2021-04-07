@@ -7,6 +7,7 @@ import { addGroup, addMemberToGroup, removeMemberToGroup } from "../helpers/db";
 
 // components
 import Masonry from "react-masonry-css";
+import MainSidebar from "../components/MainSidebar/MainSidebar";
 import Sidebar from "../components/Sidebar";
 import GroupItem from "../components/GroupItem";
 
@@ -46,17 +47,7 @@ const Groups = (props) => {
   };
 
   return (
-    <>
-      <div>
-        <button
-          type="button"
-          className="bg-red-500 m-1.5 p-1.5"
-          onClick={onCreateGroup}
-        >
-          Create a Group chat
-        </button>
-      </div>
-
+    <div className="p-2">
       {!loading ? (
         <Masonry
           breakpointCols={{
@@ -85,31 +76,7 @@ const Groups = (props) => {
       ) : (
         <p>Loading...</p>
       )}
-
-      {/* {!loading ? (
-        <Masonry brakePoints={[350, 500, 750]}>
-          {value.docs.length > 0 ? (
-            value.docs.map((doc) => (
-              <GroupItem
-                key={doc.id}
-                id={doc.id}
-                item={doc.data()}
-                onLeaveGroup={async (item) => await onLeaveGroup(doc.id, item)}
-                onJoinGroup={async (item) => await onJoinGroup(doc.id, item)}
-              />
-            ))
-          ) : (
-            <h1>No data</h1>
-          )}
-        </Masonry>
-      ) : (
-        <p>Loading...</p>
-      )} */}
-
-      <button type="button" onClick={onLogout}>
-        Logout
-      </button>
-    </>
+    </div>
   );
 };
 

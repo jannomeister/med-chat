@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-} from "react-router-dom";
+import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
 import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Chat from "./pages/Chat";
@@ -14,37 +10,11 @@ import Groups from "./pages/Groups";
 import GroupChat from "./pages/GroupChat";
 import { auth } from "./services/firebase";
 
+// routes
+import PublicRoute from "./routes/PublicRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+
 import "./App.css";
-
-function PrivateRoute({ component: Component, authenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        authenticated === true ? (
-          <Component {...rest} />
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
-    />
-  );
-}
-
-function PublicRoute({ component: Component, authenticated, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        authenticated === false ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/groups" />
-        )
-      }
-    />
-  );
-}
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -62,48 +32,49 @@ function App() {
     });
   }, []);
 
-  return loading ? (
-    <div>
-      <span>Loading...</span>
-    </div>
-  ) : (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <PrivateRoute
-          path="/chat"
-          authenticated={authenticated}
-          component={Chat}
-        />
-        <PrivateRoute
-          path="/groups"
-          authenticated={authenticated}
-          exact
-          component={Groups}
-        />
-        <PrivateRoute
-          path="/new/group"
-          authenticated={authenticated}
-          exact
-          component={NewGroup}
-        />
-        <PrivateRoute
-          path="/messages/t/:id"
-          authenticated={authenticated}
-          component={GroupChat}
-        />
-        <PublicRoute
-          path="/login"
-          authenticated={authenticated}
-          component={Login}
-        />
-        <PublicRoute
-          path="/signup"
-          authenticated={authenticated}
-          component={Signup}
-        />
-      </Switch>
-    </Router>
+  if (loading) {
+    return (
+      <div>
+        <span>Loading...</span>
+      </div>
+    );
+  }
+
+  return (
+    <Switch>
+      <Route exact path="/" component={Home} />
+      {/* <PrivateRoute
+      path="/chat"
+      authenticated={authenticated}
+      component={Chat}
+    /> */}
+      <PrivateRoute
+        path="/e"
+        authenticated={authenticated}
+        component={Dashboard}
+      />
+      {/* <PrivateRoute
+      path="/new/group"
+      authenticated={authenticated}
+      exact
+      component={NewGroup}
+      /> */}
+      {/* <PrivateRoute
+        path="/messages/t/:id"
+        authenticated={authenticated}
+        component={GroupChat}
+      /> */}
+      <PublicRoute
+        path="/login"
+        authenticated={authenticated}
+        component={Login}
+      />
+      <PublicRoute
+        path="/signup"
+        authenticated={authenticated}
+        component={Signup}
+      />
+    </Switch>
   );
 }
 
