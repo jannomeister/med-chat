@@ -44,7 +44,7 @@ const Login = (props) => {
     try {
       await signInWithTwitter();
 
-      props.history.replace("/groups");
+      props.history.replace("/e/groups");
     } catch (err) {
       console.log("err: ", err);
     }
@@ -54,7 +54,7 @@ const Login = (props) => {
     try {
       await signInWithGoogle();
 
-      props.history.replace("/groups");
+      props.history.replace("/e/groups");
     } catch (err) {
       console.log("err: ", err);
     }
