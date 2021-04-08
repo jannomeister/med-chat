@@ -55,10 +55,12 @@ const MessageListItem = React.forwardRef((props, ref) => {
         <div className="flex flex-col justify-end min-w-max">
           <img
             src={owner.photoURL}
-            width={40}
-            height={40}
             alt=""
-            className="rounded-full mr-2 bg-black"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/assets/fallback_img.webp";
+            }}
+            className="rounded-full mr-2 bg-black w-10 h-10"
           />
         </div>
       ) : null}

@@ -32,7 +32,11 @@ const MessageItem = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [value, loading, error] = useCollection(
-    db.collection("message").doc(id).collection("messages").orderBy("sentAt"),
+    db
+      .collection("message")
+      .doc(id)
+      .collection("messages")
+      .orderBy("sentAt", "desc"),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -47,13 +51,14 @@ const MessageItem = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (messageBoxRef && value) {
-      messageBoxRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [value]);
+  // useEffect(() => {
+  //   if (messageBoxRef && value) {
+  //     messageBoxRef.current?.scrollIntoView({
+  //       behavior: "smooth",
+  //       alignToTop: false,
+  //     });
+  //   }
+  // }, [value]);
 
   const onSend = async () => {
     if (userNotAllowed) {

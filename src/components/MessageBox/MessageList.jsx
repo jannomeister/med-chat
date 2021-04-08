@@ -9,8 +9,8 @@ const MessageList = ({ messages, itemRef }) => {
 
   return (
     <div
-      className="flex flex-col no-scrollbar overflow-scroll"
-      style={{ maxHeight: "95%" }}
+      className="flex flex-col-reverse no-scrollbar overflow-scroll"
+      style={{ height: "93vh" }}
     >
       {messages.map((doc, index) => (
         <MessageListItem
