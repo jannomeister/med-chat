@@ -15,7 +15,7 @@ const MessageFileButton = (props) => {
       onUploadError={props.onUploadError}
       onUploadSuccess={props.onUploadSuccess}
       onProgress={props.onUploadProgress}
-      className="text-gray-500 w-6 cursor-pointer"
+      className="text-gray-500 w-6 cursor-pointer flex items-center"
     >
       <svg
         className="w-full"

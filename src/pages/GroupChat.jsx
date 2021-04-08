@@ -20,6 +20,7 @@ import {
   MessageList,
   FileUploadIndicator,
 } from "../components/MessageBox";
+import { TextEditor } from "../components/Slate";
 
 const GroupChat = (props) => {
   const { id } = useParams();
@@ -31,29 +32,29 @@ const GroupChat = (props) => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
-  const [value, loading, error] = useCollection(
-    db.collection("message").doc(id).collection("messages").orderBy("sentAt"),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
+  // const [value, loading, error] = useCollection(
+  //   db.collection("message").doc(id).collection("messages").orderBy("sentAt"),
+  //   {
+  //     snapshotListenOptions: { includeMetadataChanges: true },
+  //   }
+  // );
 
   const userNotAllowed =
     group && group.members.find((e) => e.uid === currUser().uid) ? false : true;
 
-  useEffect(() => {
-    fetchGroup(id).then((data) => {
-      setGroup(data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   fetchGroup(id).then((data) => {
+  //     setGroup(data);
+  //   });
+  // }, []);
 
-  useEffect(() => {
-    if (messageBoxRef && value) {
-      messageBoxRef.current?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [value]);
+  // useEffect(() => {
+  //   if (messageBoxRef && value) {
+  //     messageBoxRef.current?.scrollIntoView({
+  //       behavior: "smooth",
+  //     });
+  //   }
+  // }, [value]);
 
   const onSend = async () => {
     if (userNotAllowed) {
@@ -78,22 +79,23 @@ const GroupChat = (props) => {
     <div className="flex items-center justify-center max-w-max my-0 mx-auto">
       <GroupChatLeftSidebar />
       <MessageWrapper>
-        {!loading ? (
+        {/* {!loading ? (
           <MessageList messages={value.docs} itemRef={messageBoxRef} />
         ) : (
           <p>Loading...</p>
-        )}
+        )} */}
 
         {isUploading ? <FileUploadIndicator progress={uploadProgress} /> : null}
 
         <MessageBoxWrapper onSend={onSend}>
           <MessageFileIndicator show={fileUrl ? true : false} />
-          <MessageInput
+          <TextEditor />
+          {/* <MessageInput
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onEnter={onSend}
             disabled={userNotAllowed}
-          />
+          /> */}
           <div className="mx-1" />
           <MessageGifButton
             open={openGif}
@@ -139,7 +141,7 @@ const GroupChat = (props) => {
           />
         </MessageBoxWrapper>
       </MessageWrapper>
-      <GroupChatRightSidebar id={id} group={group} />
+      {/* <GroupChatRightSidebar id={id} group={group} /> */}
     </div>
   );
 };
