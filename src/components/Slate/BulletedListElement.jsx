@@ -1,12 +1,11 @@
 import React from "react";
 
-const BulletedList = (props) => {
-  console.log("hello");
+const BulletedListElement = (props) => {
   return (
-    <ul {...props.attributes} className="bg-red-500">
-      {props.children}
+    <ul {...props.attributes} className="list-disc list-inside">
+      <li>{props.children}</li>
     </ul>
   );
 };
 
-export default BulletedList;
+export default BulletedListElement;

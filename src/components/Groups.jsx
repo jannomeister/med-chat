@@ -1,30 +1,18 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { db } from "../services/firebase";
-import { logout } from "../helpers/auth";
-import { addGroup, addMemberToGroup, removeMemberToGroup } from "../helpers/db";
+import { addMemberToGroup, removeMemberToGroup } from "../helpers/db";
 
 // components
 import Masonry from "react-masonry-css";
-import MainSidebar from "../components/MainSidebar/MainSidebar";
-import Sidebar from "../components/Sidebar";
-import GroupItem from "../components/GroupItem";
-
-let brakePoints = [350, 500, 750];
+import GroupItem from "./GroupItem";
 
 const Groups = (props) => {
-  const history = useHistory();
-
-  const [value, loading, error] = useCollection(db.collection("group"), {
+  const [value, loading, error] = useCollection(db.collection("groups"), {
     snapshotListenOptions: {
       includeMetadataChanges: true,
     },
   });
-
-  const onCreateGroup = async () => {
-    history.push("/new/group");
-  };
 
   const onJoinGroup = async (groupdId, group) => {
     try {
@@ -42,12 +30,8 @@ const Groups = (props) => {
     }
   };
 
-  const onLogout = async () => {
-    await logout();
-  };
-
   return (
-    <div className="p-2">
+    <div className="px-2 py-4">
       {!loading ? (
         <Masonry
           breakpointCols={{

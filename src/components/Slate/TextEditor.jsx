@@ -7,6 +7,7 @@ import DefaultElement from "./DefaultElement";
 import CodeElement from "./CodeElement";
 import BlockquoteElement from "./BlockquoteElement";
 import BulletedListElement from "./BulletedListElement";
+import OrderedListElement from "./OrderedListElement";
 import Leaf from "./Leaf";
 
 const TextEditor = () => {
@@ -29,6 +30,8 @@ const TextEditor = () => {
         return <BlockquoteElement {...props} />;
       case "bulleted-list":
         return <BulletedListElement {...props} />;
+      case "ordered-list":
+        return <OrderedListElement {...props} />;
       default:
         return <DefaultElement {...props} />;
     }
@@ -84,6 +87,13 @@ const TextEditor = () => {
 
       return !!match;
     },
+    isOrderedlistActive(editor) {
+      const [match] = Editor.nodes(editor, {
+        match: (n) => n.type === "ordered-list",
+      });
+
+      return !!match;
+    },
     toggleBoldMark(editor) {
       const isActive = CustomEditor.isBoldMarkActive(editor);
       Transforms.setNodes(
@@ -132,6 +142,14 @@ const TextEditor = () => {
         { match: (n) => Editor.isBlock(editor, n) }
       );
     },
+    toggleOrderedlist(editor) {
+      const isActive = CustomEditor.isOrderedlistActive(editor);
+      Transforms.setNodes(
+        editor,
+        { type: isActive ? null : "ordered-list" },
+        { match: (n) => Editor.isBlock(editor, n) }
+      );
+    },
   };
 
   const onKeyDown = (e) => {
@@ -147,10 +165,12 @@ const TextEditor = () => {
       CustomEditor.toggleCodeBlock(editor);
     } else if (e.key === "X" && e.shiftKey) {
       CustomEditor.toggleStrikthroughMark(editor);
-    } else if (e.key === "(" && e.shiftKey) {
+    } else if (e.key === "9" && e.shiftKey) {
       CustomEditor.toggleBlockquote(editor);
-    } else if (e.key === "*" && e.shiftKey) {
+    } else if (e.key === "8" && e.shiftKey) {
       CustomEditor.toggleBulletlist(editor);
+    } else if (e.key === "7" && e.shiftKey) {
+      CustomEditor.toggleOrderedlist(editor);
     } else {
       return;
     }

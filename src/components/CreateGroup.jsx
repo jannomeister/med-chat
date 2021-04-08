@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-form";
-import { useHistory } from "react-router-dom";
+import { useHistory, useRouteMatch, useLocation } from "react-router-dom";
 import { addGroup } from "../helpers/db";
 
 // components
-import Input from "../components/Input";
-import Textarea from "../components/Textarea";
+import Input from "./Input";
+import Textarea from "./Textarea";
 
-const NewGroup = (props) => {
+const CreateGroup = (props) => {
   const [isSuccess, setIsSuccess] = useState(false);
   const history = useHistory();
+  const { url, path } = useRouteMatch();
+  const location = useLocation();
   const [onSubmitError, setOnSubmitError] = useState(null);
   const defaultValues = React.useMemo(
     () => ({
@@ -45,7 +47,7 @@ const NewGroup = (props) => {
 
   useEffect(() => {
     if (isSuccess) {
-      history.push("/groups");
+      history.push("/e");
     }
   }, [isSuccess]);
 
@@ -142,4 +144,4 @@ const NewGroup = (props) => {
   );
 };
 
-export default NewGroup;
+export default CreateGroup;

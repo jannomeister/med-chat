@@ -10,7 +10,7 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ["last", "active"],
+      backgroundColor: ["last"],
       borderRadius: ["hover", "active"],
     },
   },

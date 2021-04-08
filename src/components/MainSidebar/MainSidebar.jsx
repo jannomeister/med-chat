@@ -1,19 +1,21 @@
 import React from "react";
-import { useRouteMatch, useHistory } from "react-router-dom";
+import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
 
 // components
-import HomeIcon from "./HomeIcon";
+import CreateGroupIcon from "./CreateGroupIcon";
+import GroupListIcon from "./GroupListIcon";
 import MessageIcon from "./MessageIcon";
 import SettingsIcon from "./SettingsIcon";
 import NotificationIcon from "./NotificationIcon";
 import LogoutIcon from "./LogoutIcon";
 
 const MainSidebar = ({ onLogout }) => {
-  const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
   const history = useHistory();
+  const { pathname } = useLocation();
 
   return (
-    <aside className="fixed h-screen bg-gray-800 w-16">
+    <aside className="fixed h-screen bg-gray-900 w-16">
       <nav className="flex flex-col h-full">
         <div className="px-4 py-2 mb-6 text-white">
           <svg
@@ -33,16 +35,27 @@ const MainSidebar = ({ onLogout }) => {
         </div>
 
         <div className="px-2">
-          <HomeIcon onClick={() => history.push(`${url}/groups`)} />
+          <CreateGroupIcon
+            isActive={pathname === `${path}/new/group`}
+            onClick={() => history.push(`${url}/new/group`)}
+          />
 
-          <MessageIcon onClick={() => history.push(`${url}/messages`)} />
+          <GroupListIcon
+            isActive={pathname === `${path}/groups`}
+            onClick={() => history.push(`${url}/groups`)}
+          />
+
+          <MessageIcon
+            isActive={pathname.startsWith(`${path}/messages`)}
+            onClick={() => history.push(`${url}/messages`)}
+          />
 
           <SettingsIcon />
 
           <NotificationIcon />
         </div>
 
-        <hr className="border-gray-700" />
+        <hr className="border-gray-700 mt-2" />
 
         <LogoutIcon onClick={onLogout} />
       </nav>

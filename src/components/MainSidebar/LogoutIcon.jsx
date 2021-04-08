@@ -2,7 +2,7 @@ import React from "react";
 
 const LogoutIcon = ({ onClick }) => {
   return (
-    <div className="mt-auto px-5 py-3 bg-gray-900">
+    <div className="mt-auto px-5 py-3">
       <button type="button" className="text-white" onClick={onClick}>
         <svg
           xmlns="http://www.w3.org/2000/svg"

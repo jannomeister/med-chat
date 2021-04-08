@@ -7,12 +7,8 @@ import JoinGroupButton from "../components/JoinGroupButton";
 import MemberGroupButton from "./MemberGroupButton";
 
 const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
-  console.log("item: ", item.banner);
   return (
-    <div
-      className="rounded-lg overflow-hidden mx-3 mb-8 border border-gray-300 "
-      key={id}
-    >
+    <div className="rounded-lg overflow-hidden mb-8 border border-gray-300">
       <div className="object-cover h-32 w-full bg-black">
         {item.banner ? (
           <img
@@ -26,7 +22,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
         <div className="relative w-16 h-16 -top-9 ml-3 -mb-9 bg-black border-4 border-solid border-white rounded">
           <Link
             to={{
-              pathname: `/messages/t/${id}`,
+              pathname: `/e/messages/t/${id}`,
             }}
           >
             {item.avatar ? (
@@ -42,7 +38,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
         <div className="flex flex-col py-0 px-4">
           <Link
             to={{
-              pathname: `/messages/t/${id}`,
+              pathname: `/e/messages/t/${id}`,
             }}
           >
             <h1 className="text-2xl break-words font-extrabold">{item.name}</h1>

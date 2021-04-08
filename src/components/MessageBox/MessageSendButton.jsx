@@ -1,11 +1,22 @@
 import React from "react";
 
-const MessageSendButton = ({ onSend }) => {
+const MessageSendButton = ({ onSend, disabled }) => {
+  const mainClassnames = [
+    "px-2",
+    "py-1",
+    "outline-none",
+    "border-none",
+    "rounded-lg",
+    "transition delay-100 duration-300 ease-in-out",
+    !disabled ? "bg-indigo-100 text-indigo-500" : "text-gray-500",
+  ].join(" ");
+
   return (
     <button
       type="button"
-      className="m-1 outline-none border rounded-full mr-4 p-2 border-red-100 bg-red-100 text-red-500 "
+      className={mainClassnames}
       onClick={onSend}
+      disabled={disabled}
     >
       <svg
         aria-hidden="true"

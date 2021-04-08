@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Link, Route, Switch, useRouteMatch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Chat from "./pages/Chat";
-import NewGroup from "./pages/NewGroup";
-import Groups from "./pages/Groups";
-import GroupChat from "./pages/GroupChat";
 import { auth } from "./services/firebase";
 
 // routes
@@ -43,27 +39,11 @@ function App() {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      {/* <PrivateRoute
-      path="/chat"
-      authenticated={authenticated}
-      component={Chat}
-    /> */}
       <PrivateRoute
         path="/e"
         authenticated={authenticated}
         component={Dashboard}
       />
-      {/* <PrivateRoute
-      path="/new/group"
-      authenticated={authenticated}
-      exact
-      component={NewGroup}
-      /> */}
-      {/* <PrivateRoute
-        path="/messages/t/:id"
-        authenticated={authenticated}
-        component={GroupChat}
-      /> */}
       <PublicRoute
         path="/login"
         authenticated={authenticated}
