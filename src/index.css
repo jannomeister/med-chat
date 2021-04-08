@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.masonry {
-  column-count: 3;
-  column-gap: 2rem;
-}
-
-@screen 1xl {
-  .masonry {
-    column-count: 2 !important;
-  }
-}
-
-@screen 2xl {
-  .masonry {
-    column-count: 1 !important;
-  }
-}
-
 @layer utilities {
   @variants responsive {
     /* Chrome, Safari and Opera */

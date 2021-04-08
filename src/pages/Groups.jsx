@@ -6,8 +6,12 @@ import { logout } from "../helpers/auth";
 import { addGroup, addMemberToGroup, removeMemberToGroup } from "../helpers/db";
 
 // components
+import Masonry from "react-masonry-css";
+import MainSidebar from "../components/MainSidebar/MainSidebar";
 import Sidebar from "../components/Sidebar";
 import GroupItem from "../components/GroupItem";
+
+let brakePoints = [350, 500, 750];
 
 const Groups = (props) => {
   const history = useHistory();
@@ -43,19 +47,18 @@ const Groups = (props) => {
   };
 
   return (
-    <>
-      <div>
-        <button
-          type="button"
-          className="bg-red-500 m-1.5 p-1.5"
-          onClick={onCreateGroup}
+    <div className="p-2">
+      {!loading ? (
+        <Masonry
+          breakpointCols={{
+            default: 4,
+            1100: 3,
+            700: 2,
+            500: 1,
+          }}
+          className="flex -ml-7 w-auto"
+          columnClassName="pl-7 bg-clip-padding"
         >
-          Create a Group chat
-        </button>
-      </div>
-
-      {loading === false ? (
-        <div className="masonry max-w-7xl px-16 py-8">
           {value.docs.length > 0 ? (
             value.docs.map((doc) => (
               <GroupItem
@@ -69,14 +72,11 @@ const Groups = (props) => {
           ) : (
             <h1>No data</h1>
           )}
-        </div>
+        </Masonry>
       ) : (
         <p>Loading...</p>
       )}
-      <button type="button" onClick={onLogout}>
-        Logout
-      </button>
-    </>
+    </div>
   );
 };
 

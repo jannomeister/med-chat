@@ -7,28 +7,35 @@ import JoinGroupButton from "../components/JoinGroupButton";
 import MemberGroupButton from "./MemberGroupButton";
 
 const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
+  console.log("item: ", item.banner);
   return (
     <div
-      className="rounded-lg overflow-hidden mb-8 border border-gray-300"
+      className="rounded-lg overflow-hidden mx-3 mb-8 border border-gray-300 "
       key={id}
     >
       <div className="object-cover h-32 w-full bg-black">
-        <img
-          src={item.banner}
-          className="object-cover h-32 w-full shadow-inner bg-black"
-        />
+        {item.banner ? (
+          <img
+            src={item.banner}
+            alt=""
+            className="object-cover h-32 w-full shadow-inner bg-black"
+          />
+        ) : null}
       </div>
       <div className="p-1.5">
-        <div className="relative w-16 h-16 -top-9 ml-3 -mb-9 bg-white border-4 border-solid border-white rounded">
+        <div className="relative w-16 h-16 -top-9 ml-3 -mb-9 bg-black border-4 border-solid border-white rounded">
           <Link
             to={{
               pathname: `/messages/t/${id}`,
             }}
           >
-            <img
-              src={item.avatar}
-              className="inline-block w-14 h-14 rounded object-cover bg-black"
-            />
+            {item.avatar ? (
+              <img
+                src={item.avatar}
+                alt=""
+                className="inline-block w-14 h-14 rounded object-cover bg-black"
+              />
+            ) : null}
           </Link>
         </div>
 

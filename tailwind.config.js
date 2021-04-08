@@ -10,7 +10,8 @@ module.exports = {
   },
   variants: {
     extend: {
-      backgroundColor: ["last"],
+      backgroundColor: ["last", "active"],
+      borderRadius: ["hover", "active"],
     },
   },
   plugins: [],
