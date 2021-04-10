@@ -1,6 +1,6 @@
 import React from "react";
 import { Picker } from "emoji-mart";
-import OutsideClickHandler from "react-outside-click-handler";
+import OutsideClickHandler from "../../OutsideClickHandler";
 import "emoji-mart/css/emoji-mart.css";
 
 const MessageEmojiButton = ({ open, onClick, onOutsideClick, onSelect }) => {

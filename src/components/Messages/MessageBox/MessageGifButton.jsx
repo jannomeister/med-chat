@@ -1,5 +1,5 @@
 import React from "react";
-import OutsideClickHandler from "react-outside-click-handler";
+import OutsideClickHandler from "../../OutsideClickHandler";
 import ReactGiphySearchbox from "../../ReactGiphySearchbox";
 
 const MessageGifButton = ({
