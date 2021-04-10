@@ -1,10 +1,11 @@
 import React from "react";
 import { Picker } from "emoji-mart";
+import OutsideClickHandler from "react-outside-click-handler";
 import "emoji-mart/css/emoji-mart.css";
 
-const MessageEmojiButton = ({ open, onClick, onSelect }) => {
+const MessageEmojiButton = ({ open, onClick, onOutsideClick, onSelect }) => {
   return (
-    <>
+    <OutsideClickHandler onOutsideClick={onOutsideClick}>
       <div
         className={`absolute ${!open ? "hidden" : "visible"}`}
         style={{ bottom: "55px", right: "10px" }}
@@ -27,7 +28,7 @@ const MessageEmojiButton = ({ open, onClick, onSelect }) => {
           />
         </svg>
       </button>
-    </>
+    </OutsideClickHandler>
   );
 };
 

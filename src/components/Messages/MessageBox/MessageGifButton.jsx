@@ -1,9 +1,15 @@
 import React from "react";
+import OutsideClickHandler from "react-outside-click-handler";
 import ReactGiphySearchbox from "../../ReactGiphySearchbox";
 
-const MessageGifButton = ({ open, onClick, onSelect }) => {
+const MessageGifButton = ({
+  open = false,
+  onClick,
+  onOutsideClick,
+  onSelect,
+}) => {
   return (
-    <>
+    <OutsideClickHandler onOutsideClick={onOutsideClick}>
       <div
         className={`absolute ${!open ? "hidden" : "visible"}`}
         style={{ bottom: "55px", right: "10px" }}
@@ -35,7 +41,7 @@ const MessageGifButton = ({ open, onClick, onSelect }) => {
           />
         </svg>
       </button>
-    </>
+    </OutsideClickHandler>
   );
 };
 

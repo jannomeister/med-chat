@@ -4,8 +4,12 @@ import { currUser } from "../../../helpers/auth";
 // components
 import MessageListItem from "./MessageListItem";
 
-const MessageList = ({ messages, itemRef }) => {
+const MessageList = ({ loading, messages, itemRef }) => {
   const currUserId = currUser().uid;
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div

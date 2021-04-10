@@ -9,6 +9,8 @@ import MessageFileIndicator from "./MessageFileIndicator";
 import MessageWrapper from "./MessageWrapper";
 import MessageList from "./MessageList";
 import MessageListItem from "./MessageListItem";
+import MessageGroupInfo from "./MessageGroupInfo";
+import MessageInfo from "./MessageInfo";
 import FileUploadIndicator from "./FileUploadIndicator";
 import PreviewImages from "./PreviewImages";
 
@@ -24,6 +26,8 @@ export {
   MessageWrapper,
   MessageList,
   MessageListItem,
+  MessageGroupInfo,
+  MessageInfo,
   FileUploadIndicator,
   PreviewImages,
 };

@@ -1,4 +1,4 @@
-import { db, createServerTimestamp } from "../services/firebase";
+import { db, firestore, createServerTimestamp } from "../services/firebase";
 import { currUser } from "./auth";
 
 const TABLE_GROUPS = "groups";
@@ -142,14 +142,16 @@ const addMessage = async (currentGroupId, messageText, other) => {
   const user = currUser();
   const gifUrl = other && other.gifUrl ? other.gifUrl : "";
   const fileUrls = other && other.fileUrls ? other.fileUrls : "";
+  const hasFile = fileUrls.length > 0 ? true : false;
+  const hasGif = gifUrl ? true : false;
 
   try {
     const message = {
       messageText: messageText.trim(),
       gif: gifUrl,
       files: [...fileUrls],
-      hasGif: gifUrl ? true : false,
-      hasFile: fileUrls.length > 0 ? true : false,
+      hasGif,
+      hasFile,
       sentBy: {
         uid: user.uid,
         displayName: user.displayName,
@@ -164,6 +166,15 @@ const addMessage = async (currentGroupId, messageText, other) => {
       .doc(currentGroupId)
       .collection("messages")
       .add(message);
+
+    if (hasFile) {
+      await db
+        .collection(TABLE_GROUPS)
+        .doc(currentGroupId)
+        .update({
+          totalImages: firestore.FieldValue.increment(fileUrls.length),
+        });
+    }
 
     return message;
   } catch (err) {

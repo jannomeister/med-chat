@@ -47,10 +47,13 @@ const MessageListItem = React.forwardRef((props, ref) => {
     "rounded-lg",
     "bg-white",
     "mt-1",
+    "cursor-pointer",
   ].join(" ");
 
   const imagesContainerClassnames = [
     "flex w-auto",
+    "w-8/12",
+    isOwner ? "float-right" : "float-left",
     isOwner ? "flex-row-reverse" : "flex-row",
   ].join(" ");
 

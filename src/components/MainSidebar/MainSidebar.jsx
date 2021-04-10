@@ -8,6 +8,7 @@ import MessageIcon from "./MessageIcon";
 import SettingsIcon from "./SettingsIcon";
 import NotificationIcon from "./NotificationIcon";
 import LogoutIcon from "./LogoutIcon";
+import Tooltip from "../Tooltip";
 
 const MainSidebar = ({ onLogout }) => {
   const { url, path } = useRouteMatch();
