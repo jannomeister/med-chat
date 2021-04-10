@@ -10,6 +10,7 @@ import MessageWrapper from "./MessageWrapper";
 import MessageList from "./MessageList";
 import MessageListItem from "./MessageListItem";
 import FileUploadIndicator from "./FileUploadIndicator";
+import PreviewImages from "./PreviewImages";
 
 export {
   MessageInput,
@@ -24,4 +25,5 @@ export {
   MessageList,
   MessageListItem,
   FileUploadIndicator,
+  PreviewImages,
 };

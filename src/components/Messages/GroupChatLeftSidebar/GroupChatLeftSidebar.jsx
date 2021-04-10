@@ -11,7 +11,10 @@ const GroupChatSidebar = ({ groups }) => {
   const { pathname } = useLocation();
 
   return (
-    <aside className="h-screen w-80 z-10 top-0 left-0 overflow-x-hidden ">
+    <aside
+      className="h-screen w-80 z-10 top-0 left-0 overflow-x-hidden no-scrollbar"
+      style={{ scrollBehavior: "smooth" }}
+    >
       <nav className="h-full border-r">
         <h1 className="text-xl font-bold px-4 py-3">Messages</h1>
 

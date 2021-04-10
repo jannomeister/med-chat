@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { currUser } from "../helpers/auth";
+import { currUser } from "../../helpers/auth";
 
 // components
-import JoinGroupButton from "../components/JoinGroupButton";
+import JoinGroupButton from "./JoinGroupButton";
 import MemberGroupButton from "./MemberGroupButton";
 
 const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {

@@ -60,7 +60,6 @@ const fetchCurrUserGroups = async () => {
     });
   });
 
-  console.log("groups:: ", groups);
   return groups;
 };
 
@@ -104,7 +103,7 @@ const removeMemberToGroup = async (groupId, group) => {
       .doc(groupId)
       .set({
         ...group,
-        members: group.members.filter((m) => m !== user.uid),
+        members: group.members.filter((m) => m.uid !== user.uid),
       });
 
     return true;
@@ -139,17 +138,18 @@ const addMemberToGroup = async (groupId, group) => {
 };
 
 const addMessage = async (currentGroupId, messageText, other) => {
+  console.log({ messageText, other });
   const user = currUser();
   const gifUrl = other && other.gifUrl ? other.gifUrl : "";
-  const fileUrl = other && other.fileUrl ? other.fileUrl : "";
+  const fileUrls = other && other.fileUrls ? other.fileUrls : "";
 
   try {
     const message = {
       messageText: messageText.trim(),
       gif: gifUrl,
-      files: [fileUrl],
+      files: [...fileUrls],
       hasGif: gifUrl ? true : false,
-      hasFile: fileUrl ? true : false,
+      hasFile: fileUrls.length > 0 ? true : false,
       sentBy: {
         uid: user.uid,
         displayName: user.displayName,

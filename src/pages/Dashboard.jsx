@@ -5,8 +5,8 @@ import { logout } from "../helpers/auth";
 // components
 import MainSidebar from "../components/MainSidebar/MainSidebar";
 import CreateGroup from "../components/CreateGroup";
-import Groups from "../components/Groups";
-import Messages from "../components/Messages";
+import Groups from "../components/Groups/Groups";
+import Messages from "../components/Messages/Messages";
 
 const Dashboard = () => {
   const { path } = useRouteMatch();

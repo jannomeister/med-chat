@@ -1,5 +1,5 @@
 import React from "react";
-import ReactGiphySearchbox from "../ReactGiphySearchbox";
+import ReactGiphySearchbox from "../../ReactGiphySearchbox";
 
 const MessageGifButton = ({ open, onClick, onSelect }) => {
   return (

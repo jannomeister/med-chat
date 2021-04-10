@@ -1,7 +1,7 @@
 import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { db } from "../services/firebase";
-import { addMemberToGroup, removeMemberToGroup } from "../helpers/db";
+import { db } from "../../services/firebase";
+import { addMemberToGroup, removeMemberToGroup } from "../../helpers/db";
 
 // components
 import Masonry from "react-masonry-css";

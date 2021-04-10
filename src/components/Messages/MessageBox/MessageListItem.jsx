@@ -1,6 +1,9 @@
 import React from "react";
 import { format, formatDistance } from "date-fns";
 
+// components
+import Masonry from "react-masonry-css";
+
 const MessageListItem = React.forwardRef((props, ref) => {
   const { message, isOwner } = props;
 
@@ -26,27 +29,36 @@ const MessageListItem = React.forwardRef((props, ref) => {
     isOwner ? "text-right" : "",
   ].join(" ");
 
-  const hasFileContainerClassnames = [
+  const messageContainerClassnames = [
     "border",
     "border-gray-200",
     "rounded-t-lg",
     "p-4",
     "text-sm",
-    isOwner ? "bg-gray-200" : "bg-indigo-600",
+    "w-full",
+    "max-w-min",
+    isOwner ? "float-right" : "",
+    isOwner ? "bg-indigo-600" : "bg-gray-200",
     isOwner ? "rounded-bl-lg" : "rounded-br-lg",
   ].join(" ");
 
   const fileContainerClassnames = [
     "border",
-    isOwner ? "border-gray-300" : "border-indigo-600",
     "rounded-lg",
     "bg-white",
-    "mt-2",
+    "mt-1",
   ].join(" ");
 
-  const messageContainerClassnames = [
+  const imagesContainerClassnames = [
+    "flex w-auto",
+    isOwner ? "flex-row-reverse" : "flex-row",
+  ].join(" ");
+
+  const messageClassnames = [
     "text-sm",
-    isOwner ? "text-black" : "text-white",
+    "break-words",
+    "font-semibold",
+    isOwner ? "text-white" : "text-black",
   ].join(" ");
 
   return (
@@ -65,7 +77,7 @@ const MessageListItem = React.forwardRef((props, ref) => {
         </div>
       ) : null}
 
-      <div>
+      <div className="w-full">
         <h1 className={nameClassnames}>
           {!isOwner
             ? owner.displayName
@@ -75,25 +87,29 @@ const MessageListItem = React.forwardRef((props, ref) => {
           , {sentAtTime}
         </h1>
 
-        {!message.hasFile && !message.hasGif ? (
-          <div className={hasFileContainerClassnames}>
-            <p className={messageContainerClassnames}>{message.messageText}</p>
+        {message.messageText ? (
+          <div className={messageContainerClassnames}>
+            <p className={messageClassnames}>{message.messageText}</p>
           </div>
-        ) : message.hasFile ? (
-          <div className={hasFileContainerClassnames}>
+        ) : null}
+
+        <div className="clear-both" />
+
+        {message.hasFile ? (
+          <Masonry
+            className={imagesContainerClassnames}
+            columnClassName="pl-2 bg-clip-padding"
+          >
             {message.files.map((file) => (
-              <>
-                {message.messageText ? (
-                  <p className={messageContainerClassnames}>
-                    {message.messageText}
-                  </p>
-                ) : null}
-                <img src={file} className={fileContainerClassnames} />
-              </>
+              <img key={file} src={file} className={fileContainerClassnames} />
             ))}
-          </div>
+          </Masonry>
         ) : message.hasGif ? (
-          <img src={message.gif} alt="GIF Image" />
+          <img
+            src={message.gif}
+            alt="GIF Image"
+            className={isOwner ? "float-right" : "float-left"}
+          />
         ) : null}
       </div>
     </div>

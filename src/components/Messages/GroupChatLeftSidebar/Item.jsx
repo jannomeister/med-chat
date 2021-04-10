@@ -4,15 +4,17 @@ import { Link } from "react-router-dom";
 const Item = ({ to, group, isActive }) => {
   const mainClasses = [
     "flex",
-    "border-t",
-    "border-gray-200",
+    "border-t border-gray-200",
     "px-2 py-4",
     isActive ? "bg-gray-100" : "",
   ].join(" ");
 
   return (
     <Link to={to}>
-      <div className={mainClasses}>
+      <div
+        className={mainClasses}
+        style={{ borderLeft: isActive ? "2px solid #6366f1" : "none" }}
+      >
         <img
           src={group.avatar}
           className="w-9 h-9 rounded-full object-cover bg-black"
