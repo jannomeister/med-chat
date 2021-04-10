@@ -1,15 +1,15 @@
 import React from "react";
 import FileUploader from "react-firebase-file-uploader";
-// import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 
 const MessageFileButton = React.forwardRef((props, ref) => {
   return (
     <label className="text-gray-500 w-6 cursor-pointer flex items-center">
       <FileUploader
-        accept=".ts,.js,.tsx,.jsx,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,audio/*,video/*"
+        accept="image/*,image/heif,image/heic,video/*"
+        // accept=".ts,.js,.tsx,.jsx,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,audio/*,video/*, image/*"
         name={props.name}
         hidden
-        randomizeFilename
+        filename={(file) => `${new Date().getTime()}_${file.name}`}
         storageRef={props.storageRef}
         onUploadStart={props.onUploadStart}
         onUploadError={props.onUploadError}
@@ -17,6 +17,7 @@ const MessageFileButton = React.forwardRef((props, ref) => {
         onProgress={props.onUploadProgress}
         ref={ref}
         onChange={props.onChange}
+        multiple
       />
       <svg
         className="w-full"

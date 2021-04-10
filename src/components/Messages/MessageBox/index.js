@@ -2,7 +2,6 @@ import MessageInput from "./MessageInput";
 import MessageGifButton from "./MessageGifButton";
 import MessageEmojiButton from "./MessageEmojiButton";
 import MessageBoxWrapper from "./MessageBoxWrapper";
-import MessageImageButton from "./MessageImageButton";
 import MessageFileButton from "./MessageFileButton";
 import MessageSendButton from "./MessageSendButton";
 import MessageFileIndicator from "./MessageFileIndicator";
@@ -12,14 +11,13 @@ import MessageListItem from "./MessageListItem";
 import MessageGroupInfo from "./MessageGroupInfo";
 import MessageInfo from "./MessageInfo";
 import FileUploadIndicator from "./FileUploadIndicator";
-import PreviewImages from "./PreviewImages";
+import PreviewFiles from "./PreviewFiles";
 
 export {
   MessageInput,
   MessageGifButton,
   MessageEmojiButton,
   MessageBoxWrapper,
-  MessageImageButton,
   MessageFileButton,
   MessageSendButton,
   MessageFileIndicator,
@@ -29,5 +27,5 @@ export {
   MessageGroupInfo,
   MessageInfo,
   FileUploadIndicator,
-  PreviewImages,
+  PreviewFiles,
 };

@@ -138,7 +138,6 @@ const addMemberToGroup = async (groupId, group) => {
 };
 
 const addMessage = async (currentGroupId, messageText, other) => {
-  console.log({ messageText, other });
   const user = currUser();
   const gifUrl = other && other.gifUrl ? other.gifUrl : "";
   const fileUrls = other && other.fileUrls ? other.fileUrls : "";
@@ -168,11 +167,26 @@ const addMessage = async (currentGroupId, messageText, other) => {
       .add(message);
 
     if (hasFile) {
+      let newImages = 0;
+      let newFiles = 0;
+
+      for (let i = 0; i < fileUrls.length; i++) {
+        // verify if its an image
+        const isImage = fileUrls[i].contentType.startsWith("image/");
+
+        if (isImage) {
+          newImages += 1;
+        } else {
+          newFiles += 1;
+        }
+      }
+
       await db
         .collection(TABLE_GROUPS)
         .doc(currentGroupId)
         .update({
-          totalImages: firestore.FieldValue.increment(fileUrls.length),
+          totalImages: firestore.FieldValue.increment(newImages),
+          totalFiles: firestore.FieldValue.increment(newFiles),
         });
     }
 

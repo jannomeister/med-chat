@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { fetchCurrUserGroups } from "../../helpers/db";
 
 // components
@@ -9,7 +9,6 @@ import MessageView from "./MessageView";
 const Messages = () => {
   const { path } = useRouteMatch();
   const [groups, setGroups] = useState([]);
-  // const [selectedGroup, setSelectedGroup] = useState(null);
 
   useEffect(() => {
     fetchCurrUserGroups().then((result) => {
@@ -19,10 +18,7 @@ const Messages = () => {
 
   return (
     <div className="flex items-center justify-start my-0">
-      <GroupChatLeftSidebar
-        groups={groups}
-        // onSelect={(group) => setSelectedGroup(group)}
-      />
+      <GroupChatLeftSidebar groups={groups} />
       <Switch>
         <Route path={`${path}/t/:id`}>
           <MessageView />

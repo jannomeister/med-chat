@@ -12,19 +12,18 @@ import {
   MessageInput,
   MessageGifButton,
   MessageEmojiButton,
-  MessageImageButton,
-  MessageFileIndicator,
+  MessageFileButton,
   MessageWrapper,
   MessageList,
   MessageGroupInfo,
   MessageInfo,
   MessageSendButton,
   FileUploadIndicator,
-  PreviewImages,
+  PreviewFiles,
 } from "./MessageBox";
 
 // mocks
-import { messagesMock } from "../../__mocks__";
+// import { messagesMock } from "../../__mocks__";
 
 const MessageView = () => {
   const { id } = useParams();
@@ -32,7 +31,7 @@ const MessageView = () => {
   const imageUploadButtonRef = useRef(null);
   const [group, setGroup] = useState(null);
   const [message, setMessage] = useState("");
-  const [fileUrl, setFileUrl] = useState([]);
+  const [filesUrl, setFilesUrl] = useState([]);
   const [showFilePreview, setShowFilePreview] = useState(false);
   const [previewFiles, setPreviewFiles] = useState([]);
   const [openGif, setOpenGif] = useState(false);
@@ -40,18 +39,18 @@ const MessageView = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const value = { docs: messagesMock };
-  const loading = false;
-  // const [value, loading, error] = useCollection(
-  //   db
-  //     .collection("message")
-  //     .doc(id)
-  //     .collection("messages")
-  //     .orderBy("sentAt", "desc"),
-  //   {
-  //     snapshotListenOptions: { includeMetadataChanges: true },
-  //   }
-  // );
+  // const value = { docs: messagesMock };
+  // const loading = false;
+  const [value, loading] = useCollection(
+    db
+      .collection("message")
+      .doc(id)
+      .collection("messages")
+      .orderBy("sentAt", "desc"),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
 
   const userNotAllowed =
     group && group.members.find((e) => e.uid === currUser().uid) ? false : true;
@@ -64,40 +63,54 @@ const MessageView = () => {
     });
   }, [id]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (rerender) return;
 
-    if (!isUploading && fileUrl.length > previewFiles.length) {
+    if (!isUploading && filesUrl.length > previewFiles.length) {
       setMessage("");
-      setFileUrl([]);
+      setFilesUrl([]);
       setPreviewFiles([]);
+      setUploadProgress(0);
       setRerender(true);
-      await addMessage(id, message, { fileUrls: fileUrl });
-    }
-  }, [isUploading, fileUrl, previewFiles, rerender]);
 
-  const onSelectedImages = (e) => {
+      async function addMessageSync() {
+        await addMessage(id, message, { fileUrls: filesUrl });
+      }
+
+      addMessageSync();
+    }
+  }, [id, message, isUploading, filesUrl, previewFiles, rerender]);
+
+  const onSelectedFilesOrImages = (e) => {
     setShowFilePreview(true);
 
-    const tempPreview = [];
+    const tempPreview = [...previewFiles];
 
-    for (const file of e.target.files) {
-      tempPreview.push({
-        file,
-        url: URL.createObjectURL(file),
-      });
+    for (let i = 0; i < e.target.files.length; i++) {
+      const file = e.target.files[i];
+      const url = URL.createObjectURL(file);
+      const existed = tempPreview.find((e) => e.file.name === file.name);
+
+      if (!existed) {
+        tempPreview.push({ file, url });
+      }
     }
 
     setPreviewFiles(tempPreview);
   };
 
   const onImageUploadSuccess = async (filename) => {
-    const url = await storage
-      .ref(`group/${id}/images`)
-      .child(filename)
-      .getDownloadURL();
+    console.log("fillladssda: ", filename);
+    const childRef = storage.ref(`group/${id}/files`).child(filename);
+    const url = await childRef.getDownloadURL();
+    const metaData = await childRef.getMetadata();
 
-    setFileUrl((oldValue) => [...oldValue, url]);
+    const realfilename = filename.split("_").slice(1).join("_");
+
+    setFilesUrl((oldValue) => [
+      ...oldValue,
+      { url, filename: realfilename, contentType: metaData.contentType },
+    ]);
     setPreviewFiles(previewFiles.slice(1));
 
     setUploadProgress(100);
@@ -150,14 +163,12 @@ const MessageView = () => {
         <MessageBoxWrapper>
           <div className="px-2 pt-2">
             {showFilePreview ? (
-              <PreviewImages
-                images={previewFiles}
+              <PreviewFiles
+                files={previewFiles}
                 onRemove={(url) => {
-                  const filteredFiles = previewFiles.filter(
-                    (pf) => pf.url !== url
-                  );
+                  const filtered = previewFiles.filter((pf) => pf.url !== url);
 
-                  setPreviewFiles(filteredFiles);
+                  setPreviewFiles(filtered);
                 }}
               />
             ) : null}
@@ -189,15 +200,14 @@ const MessageView = () => {
                 }}
               />
               <div className="mx-1" />
-              <MessageImageButton
-                name="image"
+              <MessageFileButton
+                name="file"
                 ref={imageUploadButtonRef}
-                storageRef={storage.ref(`group/${id}/images`)}
-                onChange={onSelectedImages}
-                onUploadStart={() => {
-                  setIsUploading(true);
-                  setUploadProgress(0);
-                }}
+                storageRef={storage.ref(`group/${id}/files`)}
+                onChange={onSelectedFilesOrImages}
+                onUploadStart={() =>
+                  setIsUploading(true) && setUploadProgress(0)
+                }
                 onUploadError={(error) => setIsUploading(false)}
                 onUploadProgress={(progress) => setUploadProgress(progress)}
                 onUploadSuccess={onImageUploadSuccess}
@@ -211,6 +221,7 @@ const MessageView = () => {
       <MessageInfo
         totalMembers={group ? group.members.length : 0}
         totalImages={group ? group.totalImages : 0}
+        totalFiles={group ? group.totalFiles : 0}
         totalMessages={value ? value.docs.length : 0}
       />
     </>
