@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+
+// pages
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import { auth } from "./services/firebase";
 
 // routes
@@ -13,20 +15,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import "./App.css";
 
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        setAuthenticated(true);
-        setLoading(false);
-      } else {
-        setAuthenticated(false);
-        setLoading(false);
-      }
-    });
-  }, []);
+  const [user, loading, error] = useAuthState(auth());
 
   if (loading) {
     return (
@@ -35,6 +24,16 @@ function App() {
       </div>
     );
   }
+
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error}</p>
+      </div>
+    );
+  }
+
+  const authenticated = user ? true : false;
 
   return (
     <Switch>
@@ -48,11 +47,6 @@ function App() {
         path="/login"
         authenticated={authenticated}
         component={Login}
-      />
-      <PublicRoute
-        path="/signup"
-        authenticated={authenticated}
-        component={Signup}
       />
     </Switch>
   );

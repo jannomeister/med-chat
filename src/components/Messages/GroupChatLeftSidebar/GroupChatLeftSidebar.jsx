@@ -1,14 +1,26 @@
 import React from "react";
 import { useRouteMatch, useLocation } from "react-router-dom";
+import { useCollectionOnce } from "react-firebase-hooks/firestore";
+import { currUser } from "../../../helpers/auth";
+import { db } from "../../../services/firebase";
 
 // components
 import Searchbar from "./Searchbar";
 import MessageCounter from "./MessageCounter";
 import Item from "./Item";
 
-const GroupChatSidebar = ({ groups }) => {
+const GroupChatSidebar = () => {
   const { url, path } = useRouteMatch();
   const { pathname } = useLocation();
+  const user = currUser();
+  const [snapshot, loading, error] = useCollectionOnce(
+    db.collection("groups").where("members", "array-contains", {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+    })
+  );
 
   return (
     <aside
@@ -22,14 +34,22 @@ const GroupChatSidebar = ({ groups }) => {
 
         <MessageCounter />
 
-        {groups.map((group) => (
-          <Item
-            key={group.id}
-            to={`${url}/t/${group.id}`}
-            group={group}
-            isActive={pathname === `${path}/t/${group.id}`}
-          />
-        ))}
+        {loading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error...</p>
+        ) : (
+          <>
+            {snapshot.docs.map((group) => (
+              <Item
+                key={group.id}
+                to={`${url}/t/${group.id}`}
+                group={group.data()}
+                isActive={pathname === `${path}/t/${group.id}`}
+              />
+            ))}
+          </>
+        )}
       </nav>
     </aside>
   );

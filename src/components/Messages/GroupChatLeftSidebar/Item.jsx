@@ -17,6 +17,7 @@ const Item = ({ to, group, isActive }) => {
       >
         <img
           src={group.avatar}
+          alt={group.avatar}
           className="w-9 h-9 rounded-full object-cover bg-black"
           onError={(e) => {
             e.target.onerror = null;

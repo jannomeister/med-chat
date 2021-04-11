@@ -1,3 +1,4 @@
+// @refresh reset
 import React, { useState, useMemo, useCallback } from "react";
 import { Editable, Slate, withReact } from "slate-react";
 import { createEditor, Editor, Text, Transforms } from "slate";
@@ -14,9 +15,10 @@ const TextEditor = () => {
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState([
     {
+      type: "paragraph",
       children: [
         {
-          text: "Testing",
+          text: "",
         },
       ],
     },
@@ -159,6 +161,8 @@ const TextEditor = () => {
 
     if (e.key === "b") {
       CustomEditor.toggleBoldMark(editor);
+    } else if (e.key === "a") {
+      editor.setBlocks("paragraph");
     } else if (e.key === "i") {
       CustomEditor.toggleItalicMark(editor);
     } else if (e.key === "`") {
@@ -183,6 +187,7 @@ const TextEditor = () => {
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         onKeyDown={onKeyDown}
+        autoFocus
         placeholder="Type your message..."
       />
     </Slate>

@@ -21,6 +21,7 @@ import {
   FileUploadIndicator,
   PreviewFiles,
 } from "./MessageBox";
+import TextEditor from "../Slate/TextEditor";
 
 // mocks
 // import { messagesMock } from "../../__mocks__";

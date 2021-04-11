@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouteMatch, useHistory, useLocation } from "react-router-dom";
+import { currUser } from "../../helpers/auth";
 
 // components
 import CreateGroupIcon from "./CreateGroupIcon";
@@ -8,12 +9,12 @@ import MessageIcon from "./MessageIcon";
 import SettingsIcon from "./SettingsIcon";
 import NotificationIcon from "./NotificationIcon";
 import LogoutIcon from "./LogoutIcon";
-import Tooltip from "../Tooltip";
 
 const MainSidebar = ({ onLogout }) => {
   const { url, path } = useRouteMatch();
   const history = useHistory();
   const { pathname } = useLocation();
+  const user = currUser();
 
   return (
     <aside className="fixed h-screen bg-gray-900 w-16">
@@ -58,7 +59,13 @@ const MainSidebar = ({ onLogout }) => {
 
         <hr className="border-gray-700 mt-2" />
 
-        <LogoutIcon onClick={onLogout} />
+        <div className="mt-auto">
+          <div className="px-3 py-3">
+            <img src={user.photoURL} alt="" className="rounded-full" />
+          </div>
+
+          <LogoutIcon onClick={onLogout} />
+        </div>
       </nav>
     </aside>
   );

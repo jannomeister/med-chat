@@ -40,29 +40,6 @@ const fetchMessageByGroupId = (groupId) => {
     .orderBy("sentAt");
 };
 
-const fetchCurrUserGroups = async () => {
-  const user = currUser();
-  const querySnapshot = await db
-    .collectionGroup(TABLE_GROUPS)
-    .where("members", "array-contains", {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-    })
-    .get();
-
-  const groups = [];
-  querySnapshot.forEach((doc) => {
-    groups.push({
-      id: doc.id,
-      ...doc.data(),
-    });
-  });
-
-  return groups;
-};
-
 const addGroup = async (data) => {
   const user = currUser();
 
@@ -204,5 +181,4 @@ export {
   fetchGroups,
   fetchGroup,
   fetchMessageByGroupId,
-  fetchCurrUserGroups,
 };

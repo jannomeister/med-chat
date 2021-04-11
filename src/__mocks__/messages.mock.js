@@ -28,7 +28,7 @@ const arr = [
     id: "uAWiMGoVi1sWTJ8uNqE2",
     data: () => ({
       messageText: "asdads",
-      files: [""],
+      files: [],
       sentBy: {
         uid: "gOKMsxcUT9d9NcLVx9ULBNJvyxQ2",
         photoURL:
@@ -61,7 +61,7 @@ const arr = [
           "https://lh3.googleusercontent.com/a-/AOh14GieIyJswolp3pJ7Yoz5ex-Pwr83Pu18RZ34FpZx5Q=s96-c",
         displayName: "Janno Tabamo",
       },
-      files: [""],
+      files: [],
     }),
   },
   {
@@ -77,7 +77,7 @@ const arr = [
       },
       gif: "",
       messageText: "ss",
-      files: [""],
+      files: [],
       sentAt: {
         toDate: () => new Date(),
       },
@@ -93,7 +93,7 @@ const arr = [
       sentAt: {
         toDate: () => new Date(),
       },
-      files: [""],
+      files: [],
       sentBy: {
         email: "jannotabamo@gmail.com",
         uid: "gOKMsxcUT9d9NcLVx9ULBNJvyxQ2",
@@ -119,7 +119,7 @@ const arr = [
         toDate: () => new Date(),
       },
       hasGif: true,
-      files: [""],
+      files: [],
       gif: "https://media.giphy.com/media/a9imQoghMq5IQ/giphy.gif",
       hasFile: false,
     }),
@@ -127,7 +127,7 @@ const arr = [
   {
     id: "nCGp9X5TtH6Avf22lIEu",
     data: () => ({
-      files: [""],
+      files: [],
       messageText: "",
       sentBy: {
         email: "tatsumahiyuu12@gmail.com",
@@ -158,7 +158,7 @@ const arr = [
       sentAt: {
         toDate: () => new Date(),
       },
-      files: [""],
+      files: [],
       messageText: "",
       hasFile: false,
       hasGif: true,
@@ -181,7 +181,7 @@ const arr = [
       hasGif: true,
       hasFile: false,
       messageText: "",
-      files: [""],
+      files: [],
     }),
   },
   {
@@ -190,7 +190,7 @@ const arr = [
       sentAt: {
         toDate: () => new Date(),
       },
-      files: [""],
+      files: [],
       messageText: "",
       hasFile: false,
       sentBy: {
@@ -214,7 +214,7 @@ const arr = [
       hasGif: true,
       messageText: "",
       hasFile: false,
-      files: [""],
+      files: [],
       sentBy: {
         email: "tatsumahiyuu12@gmail.com",
         uid: "jBiIvfecOYcKSN7XddtGYZSXkDx2",
@@ -235,7 +235,7 @@ const arr = [
         photoURL:
           "https://lh3.googleusercontent.com/a-/AOh14GhxgA3m8Y02azdqwlowKTpRLEOWXWC2MnyUGjbqbQ=s96-c",
       },
-      files: [""],
+      files: [],
       hasFile: false,
       gif: "https://media.giphy.com/media/1O1UUSESiuGSi1VdT6/giphy.gif",
       sentAt: {
@@ -247,7 +247,7 @@ const arr = [
   {
     id: "nFpb1JaPLQHvhMsOtpN6",
     data: () => ({
-      files: [""],
+      files: [],
       sentBy: {
         displayName: "Ever Mary Joy Escalera",
         uid: "jBiIvfecOYcKSN7XddtGYZSXkDx2",
@@ -296,7 +296,7 @@ const arr = [
       },
       messageText: "",
       hasGif: true,
-      files: [""],
+      files: [],
       sentBy: {
         displayName: "Janno Tabamo",
         email: "jannotabamo@gmail.com",
@@ -310,7 +310,7 @@ const arr = [
     id: "k6C3miM13zqxIgWR4kWw",
     data: () => ({
       gif: "",
-      files: [""],
+      files: [],
       sentBy: {
         email: "jannotabamo@gmail.com",
         displayName: "Janno Tabamo",
@@ -330,7 +330,7 @@ const arr = [
   {
     id: "5qHg3Bn9vqsx3gWwz9Ik",
     data: () => ({
-      files: [""],
+      files: [],
       sentAt: {
         toDate: () => new Date(),
       },
@@ -360,7 +360,7 @@ const arr = [
       hasFile: false,
       hasGif: false,
       messageText: "AHAHHA",
-      files: [""],
+      files: [],
       sentAt: {
         toDate: () => new Date(),
       },
@@ -376,7 +376,7 @@ const arr = [
       sentAt: {
         toDate: () => new Date(),
       },
-      files: [""],
+      files: [],
       messageText: "??????",
       sentBy: {
         photoURL:
@@ -417,7 +417,7 @@ const arr = [
         toDate: () => new Date(),
       },
       gif: "",
-      files: [""],
+      files: [],
       sentBy: {
         photoURL:
           "https://lh3.googleusercontent.com/a-/AOh14GieIyJswolp3pJ7Yoz5ex-Pwr83Pu18RZ34FpZx5Q=s96-c",
@@ -432,7 +432,7 @@ const arr = [
   {
     id: "rbZkGEEzj5eDBYvdbyfC",
     data: () => ({
-      files: [""],
+      files: [],
       hasGif: false,
       messageText: "sdsdsd",
       hasFile: false,
