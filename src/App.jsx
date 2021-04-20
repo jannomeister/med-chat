@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ImSpinner8 } from "react-icons/im";
+import Modal from "react-modal";
 
 // pages
 import Dashboard from "./pages/Dashboard";
@@ -13,6 +14,8 @@ import PublicRoute from "./routes/PublicRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 
 import "./App.css";
+
+Modal.setAppElement("#root");
 
 function App() {
   const [user, loading, error] = useAuthState(auth());
