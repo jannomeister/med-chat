@@ -1,3 +1,5 @@
 import ConfirmLogoutModal from "./ConfirmLogoutModal";
+import AccountAlreadyExistModal from "./AccountAlreadyExistModal";
+import GeneralErrorModal from "./GeneralErrorModal";
 
-export { ConfirmLogoutModal };
+export { AccountAlreadyExistModal, ConfirmLogoutModal, GeneralErrorModal };

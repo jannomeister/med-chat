@@ -27,6 +27,11 @@ const signInWithGithub = () => {
   return auth().signInWithPopup(provider);
 };
 
+const signInWithFacebook = () => {
+  const provider = new auth.FacebookAuthProvider();
+  return auth().signInWithPopup(provider);
+};
+
 const logout = () => {
   return auth().signOut();
 };
@@ -38,5 +43,6 @@ export {
   signInWithGoogle,
   signInWithTwitter,
   signInWithGithub,
+  signInWithFacebook,
   logout,
 };

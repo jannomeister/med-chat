@@ -1,9 +1,9 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { ImSpinner8 } from "react-icons/im";
 
 // pages
-import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import { auth } from "./services/firebase";
@@ -19,16 +19,17 @@ function App() {
 
   if (loading) {
     return (
-      <div>
-        <span>Loading...</span>
+      <div className="h-screen w-full flex items-center justify-center text-4xl">
+        <span className="mr-2">Loading...</span>
+        <ImSpinner8 className="animate-spin" />
       </div>
     );
   }
 
   if (error) {
     return (
-      <div>
-        <p>Error: {error}</p>
+      <div className="h-screen w-full flex items-center justify-center text-4xl">
+        <span>Something went wrong...</span>
       </div>
     );
   }
@@ -37,16 +38,18 @@ function App() {
 
   return (
     <Switch>
-      <Route exact path="/" component={Home} />
-      <PrivateRoute
-        path="/e"
-        authenticated={authenticated}
-        component={Dashboard}
-      />
+      <Route exact path="/">
+        {authenticated ? <Redirect to="/e" /> : <Redirect to="/login" />}
+      </Route>
       <PublicRoute
         path="/login"
         authenticated={authenticated}
         component={Login}
+      />
+      <PrivateRoute
+        path="/e"
+        authenticated={authenticated}
+        component={Dashboard}
       />
     </Switch>
   );
