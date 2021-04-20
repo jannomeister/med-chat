@@ -1,5 +1,4 @@
 import React from "react";
-// import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import BaseModal from "./BaseModal";
 
 const ConfirmLogoutModal = ({ open, onLogout, onCancel }) => {

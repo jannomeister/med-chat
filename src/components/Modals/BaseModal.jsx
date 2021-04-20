@@ -15,13 +15,14 @@ const BaseModal = ({
       style={{
         overlay: {
           backgroundColor: "rgba(107, 114, 128, 0.5)",
+          zIndex: 999,
         },
       }}
       onRequestClose={onRequestClose}
       {...props}
     >
       <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-        <div className="bg-white px-4 pt-5 pb-4 p-6">
+        <div className="bg-white px-4 pt-5 pb-4 p-6 max-w-lg">
           <div className="flex items-start">
             {icon}
 
