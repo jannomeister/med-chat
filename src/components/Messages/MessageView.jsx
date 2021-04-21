@@ -21,7 +21,6 @@ import {
   FileUploadIndicator,
   PreviewFiles,
 } from "./MessageBox";
-import TextEditor from "../Slate/TextEditor";
 
 // mocks
 // import { messagesMock } from "../../__mocks__";
@@ -44,7 +43,7 @@ const MessageView = () => {
   // const loading = false;
   const [value, loading] = useCollection(
     db
-      .collection("message")
+      .collection("messages")
       .doc(id)
       .collection("messages")
       .orderBy("sentAt", "desc"),
@@ -122,11 +121,8 @@ const MessageView = () => {
     if (userNotAllowed) {
       return window.alert("Oops! you didn't join this group chat");
     }
-
     if (!message && !previewFiles.length) return;
-
     setRerender(false);
-
     if (previewFiles.length > 0) {
       setShowFilePreview(false);
       previewFiles.forEach((pf) => {
