@@ -72,7 +72,7 @@ const MessageListItem = React.forwardRef((props, ref) => {
               "p-4",
               "text-sm",
               "w-full",
-              "max-w-min",
+              "max-w-max",
               isOwner ? "float-right" : "",
               isOwner ? "bg-indigo-600" : "bg-gray-200",
               isOwner ? "rounded-bl-lg" : "rounded-br-lg",
