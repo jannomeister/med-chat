@@ -2,38 +2,9 @@ import { db, firestore, createServerTimestamp } from "../services/firebase";
 import { currUser } from "./auth";
 
 const TABLE_GROUPS = "groups";
-const TABLE_MEMBERS = "members";
 const TABLE_ROLES = "roles";
 const TABLE_MESSAGES = "messages";
 const TABLE_BANNED = "banned";
-
-const ROLES = {
-  ADMIN: "admin",
-  NORMAL: "member",
-};
-
-const fetchGroupMembers = async (groupId) => {
-  try {
-    const doc = await db
-      .collection(TABLE_MEMBERS)
-      .doc(groupId)
-      .collection("accounts")
-      .get();
-
-    const members = [];
-
-    doc.forEach((data) => {
-      members.push({
-        uid: data.id,
-        ...data.data(),
-      });
-    });
-
-    return members;
-  } catch (err) {
-    return err;
-  }
-};
 
 const fetchGroup = async (groupId) => {
   try {
@@ -43,12 +14,35 @@ const fetchGroup = async (groupId) => {
       return null;
     }
 
-    const members = await fetchGroupMembers(groupId);
-
     return {
       ...doc.data(),
-      members,
     };
+  } catch (err) {
+    return err;
+  }
+};
+
+const fetchMemberInfos = async (memberIds) => {
+  try {
+    if (!memberIds.length) {
+      return [];
+    }
+
+    const members = [];
+
+    const snapshot = await db
+      .collection("users")
+      .where(firestore.FieldPath.documentId(), "in", memberIds)
+      .get();
+
+    snapshot.forEach((doc) => {
+      members.push({
+        uid: doc.id,
+        ...doc.data(),
+      });
+    });
+
+    return members;
   } catch (err) {
     return err;
   }
@@ -69,23 +63,12 @@ const addGroup = async (data) => {
     const group = {
       ...data,
       createdBy: user.uid,
-      totalMembers: 1,
+      members: [user.uid],
       createdAt: createServerTimestamp(),
       updatedAt: createServerTimestamp(),
     };
 
     const { id: groupId } = await db.collection(TABLE_GROUPS).add(group);
-
-    await db
-      .collection(TABLE_MEMBERS)
-      .doc(groupId)
-      .collection("accounts")
-      .doc(user.uid)
-      .set({
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        email: user.email,
-      });
 
     await db
       .collection(TABLE_ROLES)
@@ -125,15 +108,7 @@ const addMemberToGroup = async (groupId, group) => {
       .doc(groupId)
       .set({
         ...group,
-        members: [
-          ...group.members,
-          {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            email: user.email,
-          },
-        ],
+        members: [...group.members, user.uid],
       });
 
     return true;
@@ -156,19 +131,14 @@ const addMessage = async (currentGroupId, messageText, other) => {
       files: [...fileUrls],
       hasGif,
       hasFile,
-      sentBy: {
-        uid: user.uid,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        email: user.email,
-      },
+      sentBy: user.uid,
       sentAt: createServerTimestamp(),
     };
 
     await db
-      .collection("message")
+      .collection(TABLE_MESSAGES)
       .doc(currentGroupId)
-      .collection("messages")
+      .collection(TABLE_MESSAGES)
       .add(message);
 
     if (hasFile) {
@@ -201,11 +171,26 @@ const addMessage = async (currentGroupId, messageText, other) => {
   }
 };
 
+const addUser = async (uid, user) => {
+  const userDoc = await db.collection("users").doc(user.uid).get();
+  const exists = userDoc.exists;
+
+  if (exists) {
+    return true;
+  }
+
+  await db.collection("users").doc(uid).set(user);
+
+  return true;
+};
+
 export {
+  addUser,
   addGroup,
   addMessage,
   addMemberToGroup,
   removeMemberToGroup,
   fetchGroup,
+  fetchMemberInfos,
   fetchMessageByGroupId,
 };

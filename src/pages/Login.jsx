@@ -54,7 +54,9 @@ const Login = (props) => {
     try {
       await signInWithGoogle();
 
-      props.history.replace("/e/groups");
+      console.log();
+
+      // props.history.replace("/e/groups");
     } catch (err) {
       onError(err);
     }
@@ -64,7 +66,7 @@ const Login = (props) => {
     try {
       await signInWithGithub();
 
-      props.history.replace("/e/groups");
+      // props.history.replace("/e/groups");
     } catch (err) {
       onError(err);
     }

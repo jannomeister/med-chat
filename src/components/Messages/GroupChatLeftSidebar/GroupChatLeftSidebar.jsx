@@ -14,12 +14,7 @@ const GroupChatSidebar = () => {
   const { pathname } = useLocation();
   const user = currUser();
   const [snapshot, loading, error] = useCollectionOnce(
-    db.collection("groups").where("members", "array-contains", {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-    })
+    db.collection("groups").where("members", "array-contains", user.uid)
   );
 
   return (

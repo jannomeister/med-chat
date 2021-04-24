@@ -5,6 +5,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { db, storage } from "../../services/firebase";
 import { addMessage, fetchGroup } from "../../helpers/db";
 import { currUser } from "../../helpers/auth";
+import { useMessages, useGroup } from "../../hooks";
 
 // components
 import {
@@ -29,7 +30,6 @@ const MessageView = () => {
   const { id } = useParams();
   const messageBoxRef = useRef(null);
   const imageUploadButtonRef = useRef(null);
-  const [group, setGroup] = useState(null);
   const [message, setMessage] = useState("");
   const [filesUrl, setFilesUrl] = useState([]);
   const [showFilePreview, setShowFilePreview] = useState(false);
@@ -38,30 +38,11 @@ const MessageView = () => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [group, isFetchingGroup] = useGroup(id);
 
-  // const value = { docs: messagesMock };
-  // const loading = false;
-  const [value, loading] = useCollection(
-    db
-      .collection("messages")
-      .doc(id)
-      .collection("messages")
-      .orderBy("sentAt", "desc"),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
-
-  const userNotAllowed =
-    group && group.members.find((e) => e.uid === currUser().uid) ? false : true;
+  const userNotAllowed = false; // group && group.members.find((uid) => uid === currUser().uid) ? false : true;
 
   const [rerender, setRerender] = useState(false);
-
-  useEffect(() => {
-    fetchGroup(id).then((data) => {
-      setGroup(data);
-    });
-  }, [id]);
 
   useEffect(() => {
     if (rerender) return;
@@ -100,7 +81,6 @@ const MessageView = () => {
   };
 
   const onImageUploadSuccess = async (filename) => {
-    console.log("fillladssda: ", filename);
     const childRef = storage.ref(`group/${id}/files`).child(filename);
     const url = await childRef.getDownloadURL();
     const metaData = await childRef.getMetadata();
@@ -121,8 +101,11 @@ const MessageView = () => {
     if (userNotAllowed) {
       return window.alert("Oops! you didn't join this group chat");
     }
+
     if (!message && !previewFiles.length) return;
+
     setRerender(false);
+
     if (previewFiles.length > 0) {
       setShowFilePreview(false);
       previewFiles.forEach((pf) => {
@@ -142,13 +125,7 @@ const MessageView = () => {
   return (
     <>
       <MessageWrapper>
-        <MessageGroupInfo group={group} />
-
-        <MessageList
-          loading={loading}
-          messages={value?.docs}
-          itemRef={messageBoxRef}
-        />
+        <MessageList groupId={id} itemRef={messageBoxRef} />
 
         {isUploading ? (
           <FileUploadIndicator
@@ -215,12 +192,14 @@ const MessageView = () => {
           </div>
         </MessageBoxWrapper>
       </MessageWrapper>
-      <MessageInfo
+
+      {group ? <MessageGroupInfo group={group} /> : null}
+      {/* <MessageInfo
         totalMembers={group ? group.members.length : 0}
         totalImages={group ? group.totalImages : 0}
         totalFiles={group ? group.totalFiles : 0}
-        totalMessages={value ? value.docs.length : 0}
-      />
+        totalMessages={messages ? messages.length : 0}
+      /> */}
     </>
   );
 };

@@ -50,7 +50,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
 
           <div className="mt-1">
             <ItemInfo
-              label={`${item.totalMembers} members`}
+              label={`${item.members.length} members`}
               icon={<HiUsers className="absolute inset-0 h-full w-full" />}
             />
 
@@ -66,7 +66,7 @@ const GroupItem = ({ id, item, onJoinGroup, onLeaveGroup }) => {
 
           <div className="pt-4 pb-3 grid items-center gap-3">
             {item.createdBy !== currUser().uid &&
-            !item.members.find((e) => e.uid === currUser().uid) ? (
+            !item.members.find((uid) => uid === currUser().uid) ? (
               <JoinGroupButton onJoinGroup={() => onJoinGroup(item)} />
             ) : (
               <MemberGroupButton onLeaveGroup={() => onLeaveGroup(item)} />

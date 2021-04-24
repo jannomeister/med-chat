@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ImSpinner8 } from "react-icons/im";
 import Modal from "react-modal";
+import { addUser } from "./helpers/db";
 
 // pages
 import Dashboard from "./pages/Dashboard";
@@ -19,6 +20,21 @@ Modal.setAppElement("#root");
 
 function App() {
   const [user, loading, error] = useAuthState(auth());
+
+  useEffect(() => {
+    if (user) {
+      async function initUser() {
+        await addUser(user.uid, {
+          displayName: user.displayName,
+          email: user.email,
+          emailVerified: user.emailVerified,
+          photoURL: user.photoURL,
+        });
+      }
+
+      initUser();
+    }
+  }, [user]);
 
   if (loading) {
     return (
